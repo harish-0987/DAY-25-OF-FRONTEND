@@ -3,926 +3,145 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Day 20 Frontend: JavaScript Data Types, Operators, and Type Conversion. Comprehensive guide to the 8 data types, stack vs heap memory, operators, coercion quirks, and 6 interactive laboratories.">
+    <meta name="description" content="Day 21 of Frontend: Basic Level Conditional Statements in JavaScript (if, else, else if, switch, and ternary operator).">
     <meta name="author" content="Harish (harish-0987)">
-    <title>Harish | Day 20 Frontend - JavaScript Data Types, Operators & Type Conversion</title>
+    <title>Day 21 - Basic Conditional Statements in JavaScript | Harish</title>
 
-    <!-- Google Fonts for Modern Typography -->
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
     <!-- Stylesheet -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <div class="page-wrapper">
-        <!-- Header Banner -->
-        <header class="main-header">
-            <div class="header-badges">
-                <span class="badge-pill">Day 20 of 100 Days Frontend Challenge</span>
-                <span class="badge-pill badge-lang">JavaScript (ES2024)</span>
-                <span class="badge-pill badge-topic">Types, Operators & Coercion</span>
-            </div>
-            <h1 class="header-title">JavaScript <span class="highlight-js">Data Types</span>, <span class="highlight-cyan">Operators</span> & <span class="highlight-emerald">Coercion</span></h1>
-            <p class="header-subtitle">
-                Master the 8 core JavaScript data types, uncover how Call Stack and Heap partition memory, harness the full power of modern operators (including <code>??</code> and <code>?.</code>), and demystify the type conversion quirks that define frontend technical interviews.
-            </p>
-
-            <nav class="quick-nav" aria-label="Page navigation">
-                <a href="#types-section" class="nav-chip">1. The 8 Data Types</a>
-                <a href="#memory-section" class="nav-chip">2. Stack vs Heap</a>
-                <a href="#operators-section" class="nav-chip">3. Operators Guide</a>
-                <a href="#coercion-section" class="nav-chip">4. Type Coercion</a>
-                <a href="#lab-type-inspector" class="nav-chip highlight-chip">5. Type Inspector Lab</a>
-                <a href="#lab-operators" class="nav-chip">6. Operators Sandbox</a>
-                <a href="#lab-equality-arena" class="nav-chip">7. == vs === Arena</a>
-                <a href="#lab-conversion" class="nav-chip">8. Coercion Studio</a>
-                <a href="#lab-truthy-falsy" class="nav-chip">9. Truthy / Falsy Matrix</a>
-                <a href="#lab-nullish-chaining" class="nav-chip">10. ?? & ?. Sandbox</a>
-                <a href="#interview-section" class="nav-chip">11. Interview Prep</a>
-            </nav>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="badge">Day 21 of 100 Days Frontend</div>
+            <h1>JavaScript <span class="highlight">Conditional Statements</span></h1>
+            <p class="subtitle">A clean and simple introduction to decision-making in JavaScript using basic <code>if</code>, <code>else</code>, <code>else if</code>, <code>switch</code>, and ternary operator.</p>
         </header>
 
-        <!-- Main Content -->
-        <main class="content-container">
+        <!-- Interactive Playground Grid -->
+        <main class="grid">
 
-            <!-- Section 1: The 8 Data Types Overview -->
-            <section id="types-section" class="doc-section">
-                <div class="section-badge badge-accent">Foundation & Language Core</div>
-                <h2 class="section-heading">The 8 JavaScript Data Types</h2>
-                <p class="section-lead">
-                    JavaScript is dynamically typed: identifiers do not carry static types—the values themselves carry types. Modern ECMAScript defines exactly 8 built-in types divided into 7 Primitives and 1 Reference type.
-                </p>
-
-                <div class="types-grid">
-                    <!-- Type 1: String -->
-                    <div class="type-card" data-category="primitive">
-                        <div class="type-card-header">
-                            <span class="type-badge badge-string">Primitive</span>
-                            <span class="type-typeof">typeof &rarr; "string"</span>
-                        </div>
-                        <h3 class="type-name">String</h3>
-                        <p class="type-desc">Represents textual UTF-16 data enclosed in single quotes, double quotes, or template literal backticks.</p>
-                        <div class="type-example">
-                            <code>const greeting = "Hello World";</code>
-                        </div>
+            <!-- Card 1: if...else (Age Eligibility) -->
+            <section class="card" id="card-if-else">
+                <div class="card-header">
+                    <span class="card-tag">1. if...else</span>
+                    <h2>Age Eligibility Checker</h2>
+                </div>
+                <p class="card-desc">Checks if a person is eligible to vote based on age (18+).</p>
+                
+                <div class="card-body">
+                    <label for="age-input">Enter Your Age:</label>
+                    <div class="input-group">
+                        <input type="number" id="age-input" placeholder="e.g. 20" min="1" max="120" value="18">
+                        <button id="check-age-btn" onclick="handleAgeCheck()">Check</button>
                     </div>
+                    <div class="result-box" id="age-result">Result will appear here...</div>
+                </div>
 
-                    <!-- Type 2: Number -->
-                    <div class="type-card" data-category="primitive">
-                        <div class="type-card-header">
-                            <span class="type-badge badge-number">Primitive</span>
-                            <span class="type-typeof">typeof &rarr; "number"</span>
-                        </div>
-                        <h3 class="type-name">Number</h3>
-                        <p class="type-desc">Double-precision 64-bit binary format IEEE 754. Handles integers, decimals, <code>Infinity</code>, <code>-Infinity</code>, and <code>NaN</code>.</p>
-                        <div class="type-example">
-                            <code>const pi = 3.14159; // also NaN</code>
-                        </div>
-                    </div>
-
-                    <!-- Type 3: BigInt -->
-                    <div class="type-card" data-category="primitive">
-                        <div class="type-card-header">
-                            <span class="type-badge badge-bigint">Primitive</span>
-                            <span class="type-typeof">typeof &rarr; "bigint"</span>
-                        </div>
-                        <h3 class="type-name">BigInt</h3>
-                        <p class="type-desc">Introduced in ES2020 to represent arbitrary-precision integers beyond <code>Number.MAX_SAFE_INTEGER</code> (2<sup>53</sup> - 1).</p>
-                        <div class="type-example">
-                            <code>const largeNum = 9007199254740995n;</code>
-                        </div>
-                    </div>
-
-                    <!-- Type 4: Boolean -->
-                    <div class="type-card" data-category="primitive">
-                        <div class="type-card-header">
-                            <span class="type-badge badge-boolean">Primitive</span>
-                            <span class="type-typeof">typeof &rarr; "boolean"</span>
-                        </div>
-                        <h3 class="type-name">Boolean</h3>
-                        <p class="type-desc">A logical entity representing binary truth states: exactly <code>true</code> or <code>false</code>.</p>
-                        <div class="type-example">
-                            <code>const isCompleted = true;</code>
-                        </div>
-                    </div>
-
-                    <!-- Type 5: Undefined -->
-                    <div class="type-card" data-category="primitive">
-                        <div class="type-card-header">
-                            <span class="type-badge badge-undefined">Primitive</span>
-                            <span class="type-typeof">typeof &rarr; "undefined"</span>
-                        </div>
-                        <h3 class="type-name">Undefined</h3>
-                        <p class="type-desc">Automatically assigned by the JavaScript engine to declared variables that have not yet been assigned a value.</p>
-                        <div class="type-example">
-                            <code>let user; // undefined</code>
-                        </div>
-                    </div>
-
-                    <!-- Type 6: Null -->
-                    <div class="type-card" data-category="primitive">
-                        <div class="type-card-header">
-                            <span class="type-badge badge-null">Primitive</span>
-                            <span class="type-typeof">typeof &rarr; "object" ⚠️</span>
-                        </div>
-                        <h3 class="type-name">Null</h3>
-                        <p class="type-desc">Represents the intentional absence of any object reference. Note: <code>typeof null === "object"</code> is a 1995 legacy bug.</p>
-                        <div class="type-example">
-                            <code>const selectedItem = null;</code>
-                        </div>
-                    </div>
-
-                    <!-- Type 7: Symbol -->
-                    <div class="type-card" data-category="primitive">
-                        <div class="type-card-header">
-                            <span class="type-badge badge-symbol">Primitive</span>
-                            <span class="type-typeof">typeof &rarr; "symbol"</span>
-                        </div>
-                        <h3 class="type-name">Symbol</h3>
-                        <p class="type-desc">Introduced in ES6 to produce guaranteed globally unique, immutable identifiers, ideal for hidden object keys.</p>
-                        <div class="type-example">
-                            <code>const id = Symbol('userId');</code>
-                        </div>
-                    </div>
-
-                    <!-- Type 8: Object (Reference) -->
-                    <div class="type-card type-card-reference" data-category="reference">
-                        <div class="type-card-header">
-                            <span class="type-badge badge-object">Reference Type</span>
-                            <span class="type-typeof">typeof &rarr; "object"</span>
-                        </div>
-                        <h3 class="type-name">Object (Non-Primitive)</h3>
-                        <p class="type-desc">Complex keyed collections and data structures. Includes Plain Objects <code>{}</code>, Arrays <code>[]</code>, Functions, Dates, and Maps.</p>
-                        <div class="type-example">
-                            <code>const user = { name: "Harish" };</code>
-                        </div>
-                    </div>
+                <div class="code-preview">
+<pre><code>if (age >= 18) {
+    return "Eligible to vote! 🗳️";
+} else {
+    return "Not eligible yet (18+ required). ⏳";
+}</code></pre>
                 </div>
             </section>
 
-            <!-- Section 2: Stack vs Heap Memory -->
-            <section id="memory-section" class="doc-section">
-                <div class="section-badge badge-cyan">Memory Architecture</div>
-                <h2 class="section-heading">Memory Allocation: Call Stack vs Memory Heap</h2>
-                <p class="section-lead">
-                    The engine uses two distinct memory areas. Primitives are stored directly by value in the Stack; objects are stored in the Heap, with the Stack holding only memory references.
-                </p>
-
-                <div class="memory-comparison-grid">
-                    <div class="memory-card">
-                        <div class="memory-card-header">
-                            <span class="memory-icon">⚡</span>
-                            <h3>Call Stack (Primitives)</h3>
-                        </div>
-                        <ul class="memory-features">
-                            <li><strong>Storage:</strong> Stores primitive values and execution contexts.</li>
-                            <li><strong>Access:</strong> Ultra-fast, ordered LIFO (Last-In, First-Out) memory.</li>
-                            <li><strong>Copying:</strong> <strong>Copied by Value</strong>. Mutating one variable creates a distinct copy without affecting original.</li>
-                            <li><strong>Immutability:</strong> Primitive data cannot be mutated in place; reassignment writes a new value.</li>
-                        </ul>
-                        <div class="code-box">
-                            <pre><code>let score1 = 100;
-let score2 = score1; // Independent copy!
-score2 = 200;
-console.log(score1); // 100 (Untouched)</code></pre>
-                        </div>
+            <!-- Card 2: if...else if...else (Grading System) -->
+            <section class="card" id="card-else-if">
+                <div class="card-header">
+                    <span class="card-tag">2. if...else if...else</span>
+                    <h2>Student Grade Calculator</h2>
+                </div>
+                <p class="card-desc">Evaluates academic performance score (0-100) into letter grades.</p>
+                
+                <div class="card-body">
+                    <label for="score-input">Enter Score (0 - 100):</label>
+                    <div class="input-group">
+                        <input type="number" id="score-input" placeholder="e.g. 85" min="0" max="100" value="85">
+                        <button id="calc-grade-btn" onclick="handleGradeCheck()">Calculate</button>
                     </div>
+                    <div class="result-box" id="grade-result">Result will appear here...</div>
+                </div>
 
-                    <div class="memory-card">
-                        <div class="memory-card-header">
-                            <span class="memory-icon">🌐</span>
-                            <h3>Memory Heap (Reference Types)</h3>
-                        </div>
-                        <ul class="memory-features">
-                            <li><strong>Storage:</strong> Stores dynamically-sized objects, arrays, and functions.</li>
-                            <li><strong>Access:</strong> Slower, random-access memory managed by Garbage Collector.</li>
-                            <li><strong>Copying:</strong> <strong>Copied by Reference</strong>. Assigning an object copies only the memory pointer (#0x101).</li>
-                            <li><strong>Mutability:</strong> Properties can be freely modified, affecting all pointers pointing to that heap location.</li>
-                        </ul>
-                        <div class="code-box">
-                            <pre><code>const user1 = { name: "Harish" };
-const user2 = user1; // Copies pointer address!
-user2.name = "Alex";
-console.log(user1.name); // "Alex" (Mutated!)</code></pre>
-                        </div>
-                    </div>
+                <div class="code-preview">
+<pre><code>if (marks >= 90) return "Grade A+ 🌟";
+else if (marks >= 75) return "Grade A 👍";
+else if (marks >= 50) return "Grade B 👌";
+else return "Grade F (Fail) ❌";</code></pre>
                 </div>
             </section>
 
-            <!-- Section 3: Mastery of JavaScript Operators -->
-            <section id="operators-section" class="doc-section">
-                <div class="section-badge badge-purple">Syntax & Operations</div>
-                <h2 class="section-heading">JavaScript Operators Master Guide</h2>
-                <p class="section-lead">
-                    Operators perform computations on operands. Understanding precedence, short-circuit evaluation, and modern operators like <code>??</code> and <code>?.</code> is essential for clean code.
-                </p>
+            <!-- Card 3: switch Statement (Traffic Light) -->
+            <section class="card" id="card-switch">
+                <div class="card-header">
+                    <span class="card-tag">3. switch statement</span>
+                    <h2>Traffic Signal Controller</h2>
+                </div>
+                <p class="card-desc">Select a signal color to see the required driver action.</p>
+                
+                <div class="card-body">
+                    <label>Select Traffic Light:</label>
+                    <div class="signal-buttons">
+                        <button class="signal-btn red" onclick="handleTrafficSignal('Red')">Red</button>
+                        <button class="signal-btn yellow" onclick="handleTrafficSignal('Yellow')">Yellow</button>
+                        <button class="signal-btn green" onclick="handleTrafficSignal('Green')">Green</button>
+                    </div>
+                    <div class="result-box" id="traffic-result">Click a signal above...</div>
+                </div>
 
-                <div class="operators-table-wrapper">
-                    <table class="data-table">
-                        <thead>
-                            <tr>
-                                <th>Category</th>
-                                <th>Operators</th>
-                                <th>Description</th>
-                                <th>Example Expression</th>
-                                <th>Result</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><span class="cat-pill cat-arithmetic">Arithmetic</span></td>
-                                <td><code>+</code> <code>-</code> <code>*</code> <code>/</code> <code>%</code> <code>**</code></td>
-                                <td>Math calculations, modulus remainder, and exponentiation</td>
-                                <td><code>10 % 3</code> / <code>2 ** 3</code></td>
-                                <td><code>1</code> / <code>8</code></td>
-                            </tr>
-                            <tr>
-                                <td><span class="cat-pill cat-assignment">Assignment</span></td>
-                                <td><code>=</code> <code>+=</code> <code>-=</code> <code>*=</code> <code>/=</code></td>
-                                <td>Assigns values with optional arithmetic shortcut</td>
-                                <td><code>count += 5</code></td>
-                                <td>Updated <code>count</code></td>
-                            </tr>
-                            <tr>
-                                <td><span class="cat-pill cat-comparison">Comparison</span></td>
-                                <td><code>===</code> <code>!==</code> <code>==</code> <code>!=</code> <code>&gt;</code> <code>&lt;</code></td>
-                                <td>Strict vs loose equality and relational checks</td>
-                                <td><code>5 === "5"</code> vs <code>5 == "5"</code></td>
-                                <td><code>false</code> vs <code>true</code></td>
-                            </tr>
-                            <tr>
-                                <td><span class="cat-pill cat-logical">Logical</span></td>
-                                <td><code>&amp;&amp;</code> <code>||</code> <code>!</code></td>
-                                <td>Short-circuit AND (first falsy) / OR (first truthy)</td>
-                                <td><code>"Harish" || "Guest"</code></td>
-                                <td><code>"Harish"</code></td>
-                            </tr>
-                            <tr>
-                                <td><span class="cat-pill cat-modern">Nullish Coalescing</span></td>
-                                <td><code>??</code></td>
-                                <td>Returns right-hand operand ONLY if left is <code>null</code> or <code>undefined</code></td>
-                                <td><code>0 ?? 50</code> (0 is valid!)</td>
-                                <td><code>0</code></td>
-                            </tr>
-                            <tr>
-                                <td><span class="cat-pill cat-modern">Optional Chaining</span></td>
-                                <td><code>?.</code></td>
-                                <td>Safely accesses deeply nested properties without crashing</td>
-                                <td><code>user?.profile?.avatar</code></td>
-                                <td><code>undefined</code> (No crash)</td>
-                            </tr>
-                            <tr>
-                                <td><span class="cat-pill cat-unary">Unary / Ternary</span></td>
-                                <td><code>+</code> <code>-</code> <code>typeof</code> <code>? :</code></td>
-                                <td>Fast type coercion and inline conditional branching</td>
-                                <td><code>+"42"</code> / <code>isAuth ? "Home" : "Login"</code></td>
-                                <td><code>42</code> (number)</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <div class="code-preview">
+<pre><code>switch (color) {
+    case "Red": return "STOP! 🛑";
+    case "Yellow": return "GET READY! ⚠️";
+    case "Green": return "GO! 🟢";
+    default: return "Unknown signal ❓";
+}</code></pre>
                 </div>
             </section>
 
-            <!-- Section 4: Type Conversion & Coercion -->
-            <section id="coercion-section" class="doc-section">
-                <div class="section-badge badge-amber">Engine Mechanics</div>
-                <h2 class="section-heading">Type Conversion: Explicit vs Implicit Coercion</h2>
-                <p class="section-lead">
-                    Type conversion converts a value from one data type to another. <strong>Explicit conversion</strong> is intentional; <strong>Implicit coercion</strong> happens automatically under the hood when operators encounter mismatched types.
-                </p>
-
-                <div class="coercion-grid">
-                    <div class="coercion-card">
-                        <h3>1. Explicit Type Casting</h3>
-                        <p>Constructors called as functions to cleanly transform types:</p>
-                        <div class="code-box">
-                            <pre><code>// String Conversion:
-String(123);        // "123"
-String(false);      // "false"
-
-// Numeric Conversion:
-Number("42");       // 42
-Number("");         // 0
-parseInt("24px");   // 24
-+"99";              // 99 (Unary +)
-
-// Boolean Conversion:
-Boolean(1);         // true
-Boolean(0);         // false
-!!"hello";          // true (Double-bang)</code></pre>
-                        </div>
+            <!-- Card 4: Ternary Operator -->
+            <section class="card" id="card-ternary">
+                <div class="card-header">
+                    <span class="card-tag">4. Ternary Operator (? :)</span>
+                    <h2>Login Status Toggle</h2>
+                </div>
+                <p class="card-desc">Compact one-line conditional statement for binary decisions.</p>
+                
+                <div class="card-body">
+                    <label>User Session State:</label>
+                    <div class="toggle-group">
+                        <button id="toggle-auth-btn" class="toggle-btn" onclick="handleAuthToggle()">Toggle Auth State</button>
+                        <span id="auth-status-indicator" class="status-indicator">Status: Logged Out</span>
                     </div>
-
-                    <div class="coercion-card">
-                        <h3>2. Implicit Type Coercion</h3>
-                        <p>Rules the JavaScript engine follows during evaluations:</p>
-                        <div class="code-box">
-                            <pre><code>// Plus (+) with a string triggers String Concatenation:
-"5" + 2;            // "52" (Number 2 coerced to "2")
-
-// Math operators (-, *, /, %) trigger Numeric Coercion:
-"5" - 2;            // 3    ("5" coerced to number 5)
-"6" * "4";          // 24   (Both coerced to numbers)
-
-// Boolean contexts (if, &&, ||) trigger Truthy/Falsy check:
-if ("text") { ... } // Evaluates as true!</code></pre>
-                        </div>
-                    </div>
+                    <div class="result-box" id="ternary-result">Please log in to continue. 🔒</div>
                 </div>
 
-                <!-- 8 Falsy Values Visual Callout -->
-                <div class="falsy-banner">
-                    <h3 class="falsy-title">⚠️ The Exact 8 Falsy Values in JavaScript</h3>
-                    <p class="falsy-desc">In JavaScript, <strong>EVERYTHING is truthy</strong> except these exact 8 values:</p>
-                    <div class="falsy-chips">
-                        <span class="f-chip"><code>false</code></span>
-                        <span class="f-chip"><code>0</code></span>
-                        <span class="f-chip"><code>-0</code></span>
-                        <span class="f-chip"><code>0n</code></span>
-                        <span class="f-chip"><code>""</code> (empty string)</span>
-                        <span class="f-chip"><code>null</code></span>
-                        <span class="f-chip"><code>undefined</code></span>
-                        <span class="f-chip"><code>NaN</code></span>
-                    </div>
-                    <div class="falsy-note">
-                        💡 <strong>Watch Out:</strong> <code>[]</code> (empty array), <code>{}</code> (empty object), <code>"0"</code> (string with zero), and <code>"false"</code> are all <strong>TRUTHY</strong>!
-                    </div>
+                <div class="code-preview">
+<pre><code>// condition ? exprIfTrue : exprIfFalse
+let message = isLoggedIn 
+    ? "Welcome back, User! 👤" 
+    : "Please log in to continue. 🔒";</code></pre>
                 </div>
             </section>
 
-            <!-- ===============================================================
-                 INTERACTIVE LAB 1: DATA TYPE INSPECTOR & MEMORY VISUALIZER
-                 =============================================================== -->
-            <section id="lab-type-inspector" class="doc-section lab-section">
-                <div class="lab-header">
-                    <div class="lab-pill">Interactive Lab 1</div>
-                    <h2 class="lab-title">Data Type Inspector & Memory Visualizer</h2>
-                    <p class="lab-desc">Click any data type preset or enter a custom JavaScript expression to inspect its classified type, <code>typeof</code> output, memory allocation zone (Call Stack vs Heap), and mutability.</p>
-                </div>
-
-                <div class="lab-presets">
-                    <span class="preset-label">Quick Presets:</span>
-                    <button class="preset-btn active" data-expr="'Hello Frontend'">"Hello Frontend"</button>
-                    <button class="preset-btn" data-expr="42">42</button>
-                    <button class="preset-btn" data-expr="9007199254740995n">9007199254740995n</button>
-                    <button class="preset-btn" data-expr="true">true</button>
-                    <button class="preset-btn" data-expr="undefined">undefined</button>
-                    <button class="preset-btn" data-expr="null">null</button>
-                    <button class="preset-btn" data-expr="Symbol('token')">Symbol('token')</button>
-                    <button class="preset-btn" data-expr="{ name: 'Harish', day: 20 }">{ name: 'Harish' }</button>
-                    <button class="preset-btn" data-expr="[1, 2, 3, 4]">[1, 2, 3, 4]</button>
-                    <button class="preset-btn" data-expr="() => 'JS'">&lpar;&rpar; =&gt; 'JS'</button>
-                    <button class="preset-btn" data-expr="NaN">NaN</button>
-                </div>
-
-                <div class="inspector-grid">
-                    <div class="inspector-input-card">
-                        <label for="inspector-input" class="input-label">JavaScript Expression:</label>
-                        <div class="input-group">
-                            <input type="text" id="inspector-input" value="'Hello Frontend'" placeholder="e.g. 3.14, [1, 2], null, 'text'">
-                            <button id="btn-inspect-eval" class="btn btn-primary">Inspect Value</button>
-                        </div>
-
-                        <div class="inspector-specs">
-                            <div class="spec-row">
-                                <span class="spec-label">Official Data Type:</span>
-                                <span id="spec-data-type" class="spec-value type-tag-string">String</span>
-                            </div>
-                            <div class="spec-row">
-                                <span class="spec-label"><code>typeof</code> Operator Output:</span>
-                                <span id="spec-typeof" class="spec-value code-font">"string"</span>
-                            </div>
-                            <div class="spec-row">
-                                <span class="spec-label">Category Classification:</span>
-                                <span id="spec-category" class="spec-value badge-primitive">Primitive (Immutable)</span>
-                            </div>
-                            <div class="spec-row">
-                                <span class="spec-label">Memory Partition:</span>
-                                <span id="spec-memory" class="spec-value badge-stack">Call Stack (Direct Value)</span>
-                            </div>
-                            <div class="spec-row">
-                                <span class="spec-label">Boolean Truthiness:</span>
-                                <span id="spec-truthiness" class="spec-value badge-truthy">Truthy (evaluates to true)</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="inspector-visual-card">
-                        <h4 class="visual-title">Engine Memory Simulator</h4>
-                        <div class="memory-stage">
-                            <div class="stage-stack">
-                                <div class="stage-header">CALL STACK</div>
-                                <div id="stack-slot" class="stage-slot">
-                                    <div class="slot-var">val</div>
-                                    <div class="slot-arrow">&rarr;</div>
-                                    <div id="stack-val-display" class="slot-val">"Hello Frontend"</div>
-                                </div>
-                            </div>
-                            <div id="heap-container" class="stage-heap is-hidden">
-                                <div class="stage-header">MEMORY HEAP</div>
-                                <div id="heap-slot" class="stage-slot-heap">
-                                    <div class="heap-address">Address #0x10A</div>
-                                    <div id="heap-val-display" class="heap-content">{}</div>
-                                </div>
-                            </div>
-                        </div>
-                        <p id="memory-explanation" class="memory-explanation-text">
-                            Strings are primitive data types stored directly by value in Call Stack memory. They cannot be modified in place.
-                        </p>
-                    </div>
-                </div>
-            </section>
-
-            <!-- ===============================================================
-                 INTERACTIVE LAB 2: OPERATORS SANDBOX
-                 =============================================================== -->
-            <section id="lab-operators" class="doc-section lab-section">
-                <div class="lab-header">
-                    <div class="lab-pill">Interactive Lab 2</div>
-                    <h2 class="lab-title">Interactive Operators Sandbox</h2>
-                    <p class="lab-desc">Test real JavaScript operations live. Select an operator, enter operands, and watch the engine compute the result, return type, and coercion breakdown.</p>
-                </div>
-
-                <div class="sandbox-controls">
-                    <div class="segmented-control" role="group" aria-label="Operator Category">
-                        <button class="segmented-btn active" data-op-cat="arithmetic">Arithmetic</button>
-                        <button class="segmented-btn" data-op-cat="comparison">Comparison</button>
-                        <button class="segmented-btn" data-op-cat="logical">Logical</button>
-                        <button class="segmented-btn" data-op-cat="modern">Nullish (??)</button>
-                    </div>
-
-                    <div class="sandbox-engine">
-                        <div class="operand-box">
-                            <label for="op-left-input">Left Operand (A):</label>
-                            <input type="text" id="op-left-input" value="10">
-                        </div>
-
-                        <div class="operator-select-box">
-                            <label for="op-select">Operator:</label>
-                            <select id="op-select" class="custom-select">
-                                <option value="+">+ (Addition)</option>
-                                <option value="-">- (Subtraction)</option>
-                                <option value="*">* (Multiplication)</option>
-                                <option value="/">/ (Division)</option>
-                                <option value="%">% (Remainder)</option>
-                                <option value="**">** (Exponentiation)</option>
-                            </select>
-                        </div>
-
-                        <div class="operand-box">
-                            <label for="op-right-input">Right Operand (B):</label>
-                            <input type="text" id="op-right-input" value="3">
-                        </div>
-
-                        <button id="btn-calc-op" class="btn btn-accent">Evaluate</button>
-                    </div>
-
-                    <div class="sandbox-result-card">
-                        <div class="res-row">
-                            <span class="res-label">Evaluated Expression:</span>
-                            <span id="res-expr-text" class="res-code">10 + 3</span>
-                        </div>
-                        <div class="res-row highlight-res-row">
-                            <span class="res-label">Output Value:</span>
-                            <span id="res-output-val" class="res-value">13</span>
-                        </div>
-                        <div class="res-row">
-                            <span class="res-label">Output Data Type:</span>
-                            <span id="res-output-type" class="res-badge">number</span>
-                        </div>
-                        <div class="res-row">
-                            <span class="res-label">Engine Mechanics Note:</span>
-                            <span id="res-notes" class="res-note">Standard mathematical addition of two numeric operands.</span>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- ===============================================================
-                 INTERACTIVE LAB 3: STRICT (===) VS LOOSE (==) ARENA
-                 =============================================================== -->
-            <section id="lab-equality-arena" class="doc-section lab-section">
-                <div class="lab-header">
-                    <div class="lab-pill">Interactive Lab 3</div>
-                    <h2 class="lab-title">Strict (===) vs Loose (==) Battle Arena</h2>
-                    <p class="lab-desc">Loose equality performs implicit type coercion according to the abstract equality algorithm, while strict equality checks both type and value. Test classic tricky interview comparisons below.</p>
-                </div>
-
-                <div class="arena-presets">
-                    <span class="preset-label">Famous Matchups:</span>
-                    <button class="battle-preset-btn active" data-a="5" data-b="'5'">5 vs '5'</button>
-                    <button class="battle-preset-btn" data-a="0" data-b="false">0 vs false</button>
-                    <button class="battle-preset-btn" data-a="''" data-b="0">'' vs 0</button>
-                    <button class="battle-preset-btn" data-a="null" data-b="undefined">null vs undefined</button>
-                    <button class="battle-preset-btn" data-a="[]" data-b="0">[] vs 0</button>
-                    <button class="battle-preset-btn" data-a="[]" data-b="false">[] vs false</button>
-                    <button class="battle-preset-btn" data-a="[1]" data-b="1">[1] vs 1</button>
-                    <button class="battle-preset-btn" data-a="NaN" data-b="NaN">NaN vs NaN</button>
-                    <button class="battle-preset-btn" data-a="[]" data-b="![]">[] vs ![] (Hard)</button>
-                </div>
-
-                <div class="battle-cards-container">
-                    <!-- Loose Equality Card -->
-                    <div class="battle-card battle-loose">
-                        <div class="battle-card-top">
-                            <span class="battle-tag">Loose Equality</span>
-                            <code class="battle-symbol">A == B</code>
-                        </div>
-                        <div class="battle-expression" id="loose-expr-display">5 == '5'</div>
-                        <div class="battle-verdict-badge verdict-true" id="loose-verdict">true</div>
-                        <div class="battle-breakdown">
-                            <strong>Coercion Algorithm:</strong>
-                            <p id="loose-explanation">
-                                Operands have different types (number vs string). The engine coerces the string '5' into the number 5, resulting in 5 == 5.
-                            </p>
-                        </div>
-                    </div>
-
-                    <!-- Strict Equality Card -->
-                    <div class="battle-card battle-strict">
-                        <div class="battle-card-top">
-                            <span class="battle-tag">Strict Equality</span>
-                            <code class="battle-symbol">A === B</code>
-                        </div>
-                        <div class="battle-expression" id="strict-expr-display">5 === '5'</div>
-                        <div class="battle-verdict-badge verdict-false" id="strict-verdict">false</div>
-                        <div class="battle-breakdown">
-                            <strong>Strict Algorithm:</strong>
-                            <p id="strict-explanation">
-                                Types are different (typeof A is "number", typeof B is "string"). Strict equality terminates immediately and returns false with zero coercion.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- ===============================================================
-                 INTERACTIVE LAB 4: TYPE CONVERSION & COERCION STUDIO
-                 =============================================================== -->
-            <section id="lab-conversion" class="doc-section lab-section">
-                <div class="lab-header">
-                    <div class="lab-pill">Interactive Lab 4</div>
-                    <h2 class="lab-title">Type Conversion & Coercion Studio</h2>
-                    <p class="lab-desc">Explore explicit casting with constructors or witness the famous JavaScript implicit coercion quirks evaluated step-by-step.</p>
-                </div>
-
-                <div class="studio-tabs">
-                    <button class="studio-tab active" id="tab-explicit">Explicit Type Casting</button>
-                    <button class="studio-tab" id="tab-quirks">Famous Coercion Quirks</button>
-                </div>
-
-                <!-- Tab 1: Explicit Casting Panel -->
-                <div id="panel-explicit" class="studio-panel">
-                    <div class="explicit-form">
-                        <label for="explicit-input" class="input-label">Enter Input Value:</label>
-                        <div class="input-group">
-                            <input type="text" id="explicit-input" value="42px" placeholder="e.g. 100, '3.14', true, null">
-                        </div>
-                        <div class="converter-buttons">
-                            <button class="btn btn-converter" data-cast="String">String(val)</button>
-                            <button class="btn btn-converter" data-cast="Number">Number(val)</button>
-                            <button class="btn btn-converter" data-cast="Boolean">Boolean(val)</button>
-                            <button class="btn btn-converter" data-cast="parseInt">parseInt(val, 10)</button>
-                            <button class="btn btn-converter" data-cast="parseFloat">parseFloat(val)</button>
-                            <button class="btn btn-converter" data-cast="UnaryPlus">+val (Unary)</button>
-                        </div>
-                    </div>
-
-                    <div class="explicit-result-box">
-                        <div class="res-row">
-                            <span class="res-label">Executed Expression:</span>
-                            <span id="cast-expr" class="res-code">parseInt("42px", 10)</span>
-                        </div>
-                        <div class="res-row highlight-res-row">
-                            <span class="res-label">Resulting Value:</span>
-                            <span id="cast-val" class="res-value">42</span>
-                        </div>
-                        <div class="res-row">
-                            <span class="res-label">Resulting Type:</span>
-                            <span id="cast-type" class="res-badge">number</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Tab 2: Quirks Runner Panel -->
-                <div id="panel-quirks" class="studio-panel is-hidden">
-                    <div class="quirks-selector-grid">
-                        <button class="quirk-btn active" data-quirk="plus-str">'5' + 2</button>
-                        <button class="quirk-btn" data-quirk="minus-str">'5' - 2</button>
-                        <button class="quirk-btn" data-quirk="array-plus-array">[] + []</button>
-                        <button class="quirk-btn" data-quirk="array-plus-obj">[] + {}</button>
-                        <button class="quirk-btn" data-quirk="bool-plus-bool">true + true</button>
-                        <button class="quirk-btn" data-quirk="null-plus-one">null + 1</button>
-                        <button class="quirk-btn" data-quirk="undef-plus-one">undefined + 1</button>
-                        <button class="quirk-btn" data-quirk="nan-equality">NaN === NaN</button>
-                    </div>
-
-                    <div class="quirk-detail-box">
-                        <div class="quirk-header">
-                            <h4 id="quirk-title" class="quirk-name">Expression: '5' + 2</h4>
-                            <span id="quirk-output-badge" class="quirk-badge">Evaluates to: "52"</span>
-                        </div>
-                        <div class="quirk-steps">
-                            <strong>Step-by-step Engine Execution:</strong>
-                            <ol id="quirk-steps-list">
-                                <li>The binary <code>+</code> operator sees at least one operand is of type <code>string</code> ('5').</li>
-                                <li>The engine coerces the second operand (number 2) into a string: <code>String(2) &rarr; "2"</code>.</li>
-                                <li>String concatenation occurs: <code>"5" + "2" &rarr; "52"</code>.</li>
-                            </ol>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- ===============================================================
-                 INTERACTIVE LAB 5: TRUTHY VS FALSY MATRIX & CHECKER
-                 =============================================================== -->
-            <section id="lab-truthy-falsy" class="doc-section lab-section">
-                <div class="lab-header">
-                    <div class="lab-pill">Interactive Lab 5</div>
-                    <h2 class="lab-title">Truthy vs Falsy Live Checker & Matrix</h2>
-                    <p class="lab-desc">Type any value or click interactive chips to test whether JavaScript coerces it to <code>true</code> or <code>false</code> in conditionals.</p>
-                </div>
-
-                <div class="truthy-tester-box">
-                    <div class="tester-input-wrapper">
-                        <label for="truthy-input" class="input-label">Test any value or expression:</label>
-                        <div class="input-group">
-                            <input type="text" id="truthy-input" value="[]" placeholder="e.g. 0, '', '0', false, {}, null">
-                            <button id="btn-test-truthy" class="btn btn-primary">Test Truthiness</button>
-                        </div>
-                    </div>
-
-                    <div class="truthy-badge-display">
-                        <div id="truthy-indicator" class="indicator-badge badge-truthy">
-                            <span class="indicator-icon">✅</span>
-                            <span id="indicator-text" class="indicator-title">TRUTHY</span>
-                        </div>
-                        <p id="truthy-explanation" class="truthy-explanation-text">
-                            Empty array <code>[]</code> is an Object instance. All objects in JavaScript are TRUTHY!
-                        </p>
-                    </div>
-                </div>
-
-                <div class="truthy-chips-matrix">
-                    <div class="matrix-column falsy-column">
-                        <h4 class="matrix-col-title">The 8 Official Falsy Values:</h4>
-                        <div class="matrix-chips">
-                            <button class="matrix-chip chip-falsy" data-val="false">false</button>
-                            <button class="matrix-chip chip-falsy" data-val="0">0</button>
-                            <button class="matrix-chip chip-falsy" data-val="-0">-0</button>
-                            <button class="matrix-chip chip-falsy" data-val="0n">0n</button>
-                            <button class="matrix-chip chip-falsy" data-val="''">"" (empty string)</button>
-                            <button class="matrix-chip chip-falsy" data-val="null">null</button>
-                            <button class="matrix-chip chip-falsy" data-val="undefined">undefined</button>
-                            <button class="matrix-chip chip-falsy" data-val="NaN">NaN</button>
-                        </div>
-                    </div>
-
-                    <div class="matrix-column truthy-column">
-                        <h4 class="matrix-col-title">Deceptive Values That Are TRUTHY:</h4>
-                        <div class="matrix-chips">
-                            <button class="matrix-chip chip-truthy" data-val="[]">[] (empty array)</button>
-                            <button class="matrix-chip chip-truthy" data-val="{}">{} (empty object)</button>
-                            <button class="matrix-chip chip-truthy" data-val="'0'">"0" (string)</button>
-                            <button class="matrix-chip chip-truthy" data-val="'false'">"false" (string)</button>
-                            <button class="matrix-chip chip-truthy" data-val="-1">-1 (negative)</button>
-                            <button class="matrix-chip chip-truthy" data-val="' '">" " (whitespace)</button>
-                            <button class="matrix-chip chip-truthy" data-val="Infinity">Infinity</button>
-                            <button class="matrix-chip chip-truthy" data-val="() => {}">() => {} (func)</button>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- ===============================================================
-                 INTERACTIVE LAB 6: NULLISH (??) & OPTIONAL CHAINING (?.)
-                 =============================================================== -->
-            <section id="lab-nullish-chaining" class="doc-section lab-section">
-                <div class="lab-header">
-                    <div class="lab-pill">Interactive Lab 6</div>
-                    <h2 class="lab-title">Nullish Coalescing (??) & Optional Chaining (?.) Studio</h2>
-                    <p class="lab-desc">See why modern web applications use <code>??</code> instead of <code>||</code> when dealing with numbers (0) and empty strings, and test safe nested object navigation.</p>
-                </div>
-
-                <div class="modern-tools-grid">
-                    <!-- Tool 1: ?? vs || -->
-                    <div class="modern-tool-card">
-                        <h3 class="tool-title">1. Nullish Coalescing (??) vs Logical OR (||)</h3>
-                        <p class="tool-desc">Select a test value for <code>userInput</code> to see how <code>||</code> vs <code>??</code> treat it:</p>
-
-                        <div class="modern-radio-group">
-                            <label class="radio-label">
-                                <input type="radio" name="nullish-val" value="0" checked>
-                                <span><code>0</code> (Speed setting)</span>
-                            </label>
-                            <label class="radio-label">
-                                <input type="radio" name="nullish-val" value="''">
-                                <span><code>""</code> (Empty bio)</span>
-                            </label>
-                            <label class="radio-label">
-                                <input type="radio" name="nullish-val" value="false">
-                                <span><code>false</code> (Mute flag)</span>
-                            </label>
-                            <label class="radio-label">
-                                <input type="radio" name="nullish-val" value="null">
-                                <span><code>null</code> (Missing)</span>
-                            </label>
-                            <label class="radio-label">
-                                <input type="radio" name="nullish-val" value="undefined">
-                                <span><code>undefined</code> (Unset)</span>
-                            </label>
-                        </div>
-
-                        <div class="comparison-results">
-                            <div class="comp-box comp-or">
-                                <div class="comp-header">Logical OR (||)</div>
-                                <code class="comp-code">userInput || "Default"</code>
-                                <div id="res-or-val" class="comp-outcome">"Default" ⚠️</div>
-                                <span class="comp-caption">Falls back on ANY falsy value</span>
-                            </div>
-
-                            <div class="comp-box comp-nullish">
-                                <div class="comp-header">Nullish Coalescing (??)</div>
-                                <code class="comp-code">userInput ?? "Default"</code>
-                                <div id="res-nullish-val" class="comp-outcome">0 ✅</div>
-                                <span class="comp-caption">Falls back ONLY on null/undefined</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Tool 2: Optional Chaining (?.) -->
-                    <div class="modern-tool-card">
-                        <h3 class="tool-title">2. Safe Navigation with Optional Chaining (?.)</h3>
-                        <p class="tool-desc">Toggle nested properties in a mock API response to see how <code>?.</code> prevents runtime crashes:</p>
-
-                        <div class="toggle-switches">
-                            <label class="switch-control">
-                                <input type="checkbox" id="chk-has-user" checked>
-                                <span class="switch-slider"></span>
-                                <span class="switch-label">Include <code>user</code> object</span>
-                            </label>
-                            <label class="switch-control">
-                                <input type="checkbox" id="chk-has-profile" checked>
-                                <span class="switch-slider"></span>
-                                <span class="switch-label">Include <code>profile</code></span>
-                            </label>
-                            <label class="switch-control">
-                                <input type="checkbox" id="chk-has-avatar" checked>
-                                <span class="switch-slider"></span>
-                                <span class="switch-label">Include <code>avatarUrl</code></span>
-                            </label>
-                        </div>
-
-                        <div class="chaining-preview">
-                            <div class="chain-code">
-                                <code>response?.user?.profile?.avatarUrl ?? "default-avatar.png"</code>
-                            </div>
-                            <div class="chain-result">
-                                <span class="res-label">Evaluated Output:</span>
-                                <span id="chain-output" class="res-value">"https://harish.dev/pic.jpg"</span>
-                            </div>
-                            <div id="chain-status" class="chain-status status-safe">
-                                ✅ Safe traversal: No TypeError thrown.
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Section: Top Frontend Interview Questions -->
-            <section id="interview-section" class="doc-section">
-                <div class="section-badge badge-rose">Technical Interview Prep</div>
-                <h2 class="section-heading">Top Frontend Interview Questions & Answers</h2>
-                <p class="section-lead">Master the essential questions asked by top engineering companies regarding JavaScript types, memory, and coercion.</p>
-
-                <div class="interview-accordion">
-                    <!-- Q1 -->
-                    <details class="interview-item" open>
-                        <summary class="interview-question">
-                            <span class="q-icon">❓</span>
-                            <span>Q1: What is the fundamental difference between <code>null</code> and <code>undefined</code>?</span>
-                        </summary>
-                        <div class="interview-answer">
-                            <p><strong>Answer:</strong></p>
-                            <ul>
-                                <li><code>undefined</code> represents the automatic default state of a declared variable before any assignment (or a function with no return).</li>
-                                <li><code>null</code> is an intentional assignment representing an explicit empty reference or "no object value".</li>
-                                <li><code>typeof undefined</code> returns <code>"undefined"</code>, whereas <code>typeof null</code> returns <code>"object"</code> (a famous 1995 legacy bug).</li>
-                                <li>In loose equality, <code>null == undefined</code> is <code>true</code>. In strict equality, <code>null === undefined</code> is <code>false</code>.</li>
-                            </ul>
-                        </div>
-                    </details>
-
-                    <!-- Q2 -->
-                    <details class="interview-item">
-                        <summary class="interview-question">
-                            <span class="q-icon">❓</span>
-                            <span>Q2: Why does <code>0.1 + 0.2 !== 0.3</code> in JavaScript? How should you fix it?</span>
-                        </summary>
-                        <div class="interview-answer">
-                            <p><strong>Answer:</strong></p>
-                            <p>JavaScript represents numbers as IEEE 754 64-bit binary floating-point. In binary base-2, numbers like 0.1 and 0.2 are recurring repeating fractions (like 1/3 in decimal base-10). The resulting sum is <code>0.30000000000000004</code>.</p>
-                            <p><strong>Fix:</strong> Use <code>Number.EPSILON</code> for comparison, or round via <code>.toFixed()</code> or multiply to integer cents:</p>
-                            <div class="code-box">
-                                <pre><code>const areEqual = Math.abs((0.1 + 0.2) - 0.3) < Number.EPSILON; // true</code></pre>
-                            </div>
-                        </div>
-                    </details>
-
-                    <!-- Q3 -->
-                    <details class="interview-item">
-                        <summary class="interview-question">
-                            <span class="q-icon">❓</span>
-                            <span>Q3: How does JavaScript evaluate the expression <code>[] == ![]</code>?</span>
-                        </summary>
-                        <div class="interview-answer">
-                            <p><strong>Answer:</strong> It evaluates to <code>true</code> via step-by-step coercion:</p>
-                            <ol>
-                                <li>Unary operator <code>!</code> has higher precedence than <code>==</code>. Since <code>[]</code> is an object, it is truthy. Thus <code>![]</code> becomes <code>false</code>.</li>
-                                <li>The expression becomes <code>[] == false</code>.</li>
-                                <li>Loose equality coerces boolean <code>false</code> to number <code>0</code>: <code>[] == 0</code>.</li>
-                                <li>Comparing an object (array) to a number coerces the array via <code>.toString()</code>: <code>[].toString() === ""</code>.</li>
-                                <li>Empty string <code>""</code> coerced to number becomes <code>0</code>.</li>
-                                <li>The expression is now <code>0 == 0</code>, which is <strong><code>true</code></strong>!</li>
-                            </ol>
-                        </div>
-                    </details>
-
-                    <!-- Q4 -->
-                    <details class="interview-item">
-                        <summary class="interview-question">
-                            <span class="q-icon">❓</span>
-                            <span>Q4: What is the difference between Logical OR (<code>||</code>) and Nullish Coalescing (<code>??</code>)?</span>
-                        </summary>
-                        <div class="interview-answer">
-                            <p><strong>Answer:</strong></p>
-                            <ul>
-                                <li><code>||</code> falls back to the right operand on <strong>ANY falsy value</strong> (including <code>0</code>, <code>""</code>, and <code>false</code>). This often introduces bugs when valid settings like zero count or empty string get overwritten.</li>
-                                <li><code>??</code> falls back <strong>ONLY on nullish values</strong> (<code>null</code> or <code>undefined</code>). It correctly preserves <code>0</code>, <code>""</code>, and <code>false</code>.</li>
-                            </ul>
-                        </div>
-                    </details>
-                </div>
-            </section>
-
-            <!-- Key Takeaways Section -->
-            <section id="takeaways" class="doc-section">
-                <div class="section-badge badge-accent">Review & Checklist</div>
-                <h2 class="section-heading">Key Takeaways for Day 20</h2>
-                <div class="takeaways-grid">
-                    <div class="takeaway-card">
-                        <span class="takeaway-num">01</span>
-                        <h4>8 Data Types</h4>
-                        <p>7 Primitives (string, number, bigint, boolean, undefined, null, symbol) stored in Stack; 1 Reference (object) stored in Heap.</p>
-                    </div>
-                    <div class="takeaway-card">
-                        <span class="takeaway-num">02</span>
-                        <h4>Stack vs Heap</h4>
-                        <p>Primitives are copied by value (immutable). Reference types are copied by pointer address (mutable).</p>
-                    </div>
-                    <div class="takeaway-card">
-                        <span class="takeaway-num">03</span>
-                        <h4>Strict Equality</h4>
-                        <p>Always default to <code>===</code> and <code>!==</code> to prevent unintended implicit type coercion bugs.</p>
-                    </div>
-                    <div class="takeaway-card">
-                        <span class="takeaway-num">04</span>
-                        <h4>Modern Operators</h4>
-                        <p>Use <code>??</code> for safe default fallbacks and <code>?.</code> for safe deep object navigation without crashes.</p>
-                    </div>
-                    <div class="takeaway-card">
-                        <span class="takeaway-num">05</span>
-                        <h4>The 8 Falsy Values</h4>
-                        <p>Remember: <code>false</code>, <code>0</code>, <code>-0</code>, <code>0n</code>, <code>""</code>, <code>null</code>, <code>undefined</code>, and <code>NaN</code>. All other values are truthy.</p>
-                    </div>
-                    <div class="takeaway-card">
-                        <span class="takeaway-num">06</span>
-                        <h4>Explicit Casting</h4>
-                        <p>Prefer readable explicit conversions like <code>Number(x)</code> and <code>Boolean(x)</code> over hidden coercion.</p>
-                    </div>
-                </div>
-            </section>
         </main>
 
         <!-- Footer -->
-        <footer class="main-footer">
-            <div class="footer-content">
-                <p class="footer-title">Day 20 of 100 Days Frontend Challenge</p>
-                <p class="footer-subtitle">Crafted with precision by <strong>Harish (harish-0987)</strong></p>
-                <div class="footer-links">
-                    <a href="https://github.com/harish-0987/DAY-20-OF-FRONTEND" target="_blank" rel="noopener noreferrer" class="footer-link">
-                        GitHub Repository &rarr;
-                    </a>
-                </div>
-            </div>
+        <footer class="footer">
+            <p>Day 21 of 100 Days Frontend • Built by <a href="https://github.com/harish-0987" target="_blank" rel="noopener">Harish</a></p>
+            <p><a href="https://github.com/harish-0987/DAY-21-OF-FRONTEND" target="_blank" rel="noopener" class="repo-link">View on GitHub ↗</a></p>
         </footer>
     </div>
 
-    <!-- Script -->
+    <!-- JavaScript Logic -->
     <script src="script.js"></script>
 </body>
 </html>
