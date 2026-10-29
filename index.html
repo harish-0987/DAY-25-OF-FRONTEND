@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Day 21 of Frontend: Basic Level Conditional Statements in JavaScript (if, else, else if, switch, and ternary operator).">
+    <meta name="description" content="Day 22 of Frontend: Basic Level Loops in JavaScript (for, while, do...while, for...of, break, and continue).">
     <meta name="author" content="Harish (harish-0987)">
-    <title>Day 21 - Basic Conditional Statements in JavaScript | Harish</title>
+    <title>Day 22 - Basic Loops in JavaScript | Harish</title>
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -20,115 +20,117 @@
     <div class="container">
         <!-- Header -->
         <header class="header">
-            <div class="badge">Day 21 of 100 Days Frontend</div>
-            <h1>JavaScript <span class="highlight">Conditional Statements</span></h1>
-            <p class="subtitle">A clean and simple introduction to decision-making in JavaScript using basic <code>if</code>, <code>else</code>, <code>else if</code>, <code>switch</code>, and ternary operator.</p>
+            <div class="badge">Day 22 of 100 Days Frontend</div>
+            <h1>JavaScript <span class="highlight">Loops</span></h1>
+            <p class="subtitle">A clean and simple introduction to repetition in JavaScript using basic <code>for</code>, <code>while</code>, <code>do...while</code>, and <code>for...of</code> loops.</p>
         </header>
 
         <!-- Interactive Playground Grid -->
         <main class="grid">
 
-            <!-- Card 1: if...else (Age Eligibility) -->
-            <section class="card" id="card-if-else">
+            <!-- Card 1: for Loop -->
+            <section class="card" id="card-for-loop">
                 <div class="card-header">
-                    <span class="card-tag">1. if...else</span>
-                    <h2>Age Eligibility Checker</h2>
+                    <span class="card-tag">1. for Loop</span>
+                    <h2>Classic Counting Loop</h2>
                 </div>
-                <p class="card-desc">Checks if a person is eligible to vote based on age (18+).</p>
+                <p class="card-desc">Repeats a block of code a specific number of times using an index variable.</p>
                 
                 <div class="card-body">
-                    <label for="age-input">Enter Your Age:</label>
+                    <label for="for-input">Loop Count (1 to 12):</label>
                     <div class="input-group">
-                        <input type="number" id="age-input" placeholder="e.g. 20" min="1" max="120" value="18">
-                        <button id="check-age-btn" onclick="handleAgeCheck()">Check</button>
+                        <input type="number" id="for-input" placeholder="e.g. 5" min="1" max="12" value="5">
+                        <button id="run-for-btn" onclick="handleForLoop()">Run Loop</button>
                     </div>
-                    <div class="result-box" id="age-result">Result will appear here...</div>
+                    <div class="result-box chips-wrap" id="for-result">Running loop...</div>
                 </div>
 
                 <div class="code-preview">
-<pre><code>if (age >= 18) {
-    return "Eligible to vote! 🗳️";
-} else {
-    return "Not eligible yet (18+ required). ⏳";
+<pre><code>// for (initialization; condition; increment)
+for (let i = 1; i &lt;= 5; i++) {
+    console.log("i = " + i);
 }</code></pre>
                 </div>
             </section>
 
-            <!-- Card 2: if...else if...else (Grading System) -->
-            <section class="card" id="card-else-if">
+            <!-- Card 2: while Loop -->
+            <section class="card" id="card-while-loop">
                 <div class="card-header">
-                    <span class="card-tag">2. if...else if...else</span>
-                    <h2>Student Grade Calculator</h2>
+                    <span class="card-tag">2. while Loop</span>
+                    <h2>Condition-Based Countdown</h2>
                 </div>
-                <p class="card-desc">Evaluates academic performance score (0-100) into letter grades.</p>
+                <p class="card-desc">Executes repeatedly as long as the specified condition evaluates to true.</p>
                 
                 <div class="card-body">
-                    <label for="score-input">Enter Score (0 - 100):</label>
+                    <label for="while-input">Countdown Start (1 to 10):</label>
                     <div class="input-group">
-                        <input type="number" id="score-input" placeholder="e.g. 85" min="0" max="100" value="85">
-                        <button id="calc-grade-btn" onclick="handleGradeCheck()">Calculate</button>
+                        <input type="number" id="while-input" placeholder="e.g. 5" min="1" max="10" value="5">
+                        <button id="run-while-btn" onclick="handleWhileLoop()">Start Countdown</button>
                     </div>
-                    <div class="result-box" id="grade-result">Result will appear here...</div>
+                    <div class="result-box chips-wrap" id="while-result">Running countdown...</div>
                 </div>
 
                 <div class="code-preview">
-<pre><code>if (marks >= 90) return "Grade A+ 🌟";
-else if (marks >= 75) return "Grade A 👍";
-else if (marks >= 50) return "Grade B 👌";
-else return "Grade F (Fail) ❌";</code></pre>
-                </div>
-            </section>
-
-            <!-- Card 3: switch Statement (Traffic Light) -->
-            <section class="card" id="card-switch">
-                <div class="card-header">
-                    <span class="card-tag">3. switch statement</span>
-                    <h2>Traffic Signal Controller</h2>
-                </div>
-                <p class="card-desc">Select a signal color to see the required driver action.</p>
-                
-                <div class="card-body">
-                    <label>Select Traffic Light:</label>
-                    <div class="signal-buttons">
-                        <button class="signal-btn red" onclick="handleTrafficSignal('Red')">Red</button>
-                        <button class="signal-btn yellow" onclick="handleTrafficSignal('Yellow')">Yellow</button>
-                        <button class="signal-btn green" onclick="handleTrafficSignal('Green')">Green</button>
-                    </div>
-                    <div class="result-box" id="traffic-result">Click a signal above...</div>
-                </div>
-
-                <div class="code-preview">
-<pre><code>switch (color) {
-    case "Red": return "STOP! 🛑";
-    case "Yellow": return "GET READY! ⚠️";
-    case "Green": return "GO! 🟢";
-    default: return "Unknown signal ❓";
+<pre><code>let count = 5;
+while (count &gt; 0) {
+    console.log(count);
+    count--; // decrement to avoid infinite loop
 }</code></pre>
                 </div>
             </section>
 
-            <!-- Card 4: Ternary Operator -->
-            <section class="card" id="card-ternary">
+            <!-- Card 3: do...while Loop -->
+            <section class="card" id="card-dowhile-loop">
                 <div class="card-header">
-                    <span class="card-tag">4. Ternary Operator (? :)</span>
-                    <h2>Login Status Toggle</h2>
+                    <span class="card-tag">3. do...while Loop</span>
+                    <h2>Runs At Least Once</h2>
                 </div>
-                <p class="card-desc">Compact one-line conditional statement for binary decisions.</p>
+                <p class="card-desc">Always executes the block once before evaluating the condition.</p>
                 
                 <div class="card-body">
-                    <label>User Session State:</label>
-                    <div class="toggle-group">
-                        <button id="toggle-auth-btn" class="toggle-btn" onclick="handleAuthToggle()">Toggle Auth State</button>
-                        <span id="auth-status-indicator" class="status-indicator">Status: Logged Out</span>
+                    <label>Test Execution Behavior:</label>
+                    <div class="btn-group">
+                        <button class="btn-secondary" onclick="handleDoWhileLoop(false)">Standard Run (1 to 4)</button>
+                        <button class="btn-warning" onclick="handleDoWhileLoop(true)">False Initial Condition</button>
                     </div>
-                    <div class="result-box" id="ternary-result">Please log in to continue. 🔒</div>
+                    <div class="result-box chips-wrap" id="dowhile-result">Click an option above...</div>
                 </div>
 
                 <div class="code-preview">
-<pre><code>// condition ? exprIfTrue : exprIfFalse
-let message = isLoggedIn 
-    ? "Welcome back, User! 👤" 
-    : "Please log in to continue. 🔒";</code></pre>
+<pre><code>let val = 10;
+do {
+    // Executes once even though 10 &lt;= 5 is false!
+    console.log("val = " + val);
+    val++;
+} while (val &lt;= 5);</code></pre>
+                </div>
+            </section>
+
+            <!-- Card 4: for...of Loop + break & continue -->
+            <section class="card" id="card-forof-loop">
+                <div class="card-header">
+                    <span class="card-tag">4. for...of & Control</span>
+                    <h2>Array Iteration & Flow</h2>
+                </div>
+                <p class="card-desc">Iterates over iterable values (arrays) and controls flow using <code>break</code> & <code>continue</code>.</p>
+                
+                <div class="card-body">
+                    <label>Control Flow Actions:</label>
+                    <div class="btn-group">
+                        <button class="btn-secondary" onclick="handleForOf('all')">Iterate All</button>
+                        <button class="btn-warning" onclick="handleForOf('skip-banana')">Skip Banana (continue)</button>
+                        <button class="btn-danger" onclick="handleForOf('stop-orange')">Stop at Orange (break)</button>
+                    </div>
+                    <div class="result-box chips-wrap" id="forof-result">Click a button above...</div>
+                </div>
+
+                <div class="code-preview">
+<pre><code>const fruits = ["🍎 Apple", "🍌 Banana", "🍊 Orange"];
+for (const item of fruits) {
+    if (item === "🍌 Banana") continue; // skip
+    if (item === "🍊 Orange") break;    // stop
+    console.log(item);
+}</code></pre>
                 </div>
             </section>
 
@@ -136,8 +138,8 @@ let message = isLoggedIn
 
         <!-- Footer -->
         <footer class="footer">
-            <p>Day 21 of 100 Days Frontend • Built by <a href="https://github.com/harish-0987" target="_blank" rel="noopener">Harish</a></p>
-            <p><a href="https://github.com/harish-0987/DAY-21-OF-FRONTEND" target="_blank" rel="noopener" class="repo-link">View on GitHub ↗</a></p>
+            <p>Day 22 of 100 Days Frontend • Built by <a href="https://github.com/harish-0987" target="_blank" rel="noopener">Harish</a></p>
+            <p><a href="https://github.com/harish-0987/DAY-22-OF-FRONTEND" target="_blank" rel="noopener" class="repo-link">View on GitHub ↗</a></p>
         </footer>
     </div>
 
