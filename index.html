@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Day 22 of Frontend: Basic Level Loops in JavaScript (for, while, do...while, for...of, break, and continue).">
+    <meta name="description" content="Day 23 of Frontend: Basic Level Functions in JavaScript (Declarations, Expressions, Arrow Functions, Default Parameters, and Return Values).">
     <meta name="author" content="Harish (harish-0987)">
-    <title>Day 22 - Basic Loops in JavaScript | Harish</title>
+    <title>Day 23 - Basic Functions in JavaScript | Harish</title>
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -20,116 +20,180 @@
     <div class="container">
         <!-- Header -->
         <header class="header">
-            <div class="badge">Day 22 of 100 Days Frontend</div>
-            <h1>JavaScript <span class="highlight">Loops</span></h1>
-            <p class="subtitle">A clean and simple introduction to repetition in JavaScript using basic <code>for</code>, <code>while</code>, <code>do...while</code>, and <code>for...of</code> loops.</p>
+            <div class="badge">Day 23 of 100 Days Frontend</div>
+            <h1>JavaScript <span class="highlight">Functions</span></h1>
+            <p class="subtitle">A clean and simple introduction to writing reusable code with <code>Function Declarations</code>, <code>Expressions</code>, <code>Arrow Functions</code>, and <code>Default Parameters</code>.</p>
         </header>
 
         <!-- Interactive Playground Grid -->
         <main class="grid">
 
-            <!-- Card 1: for Loop -->
-            <section class="card" id="card-for-loop">
+            <!-- Card 1: Function Declaration -->
+            <section class="card" id="card-declaration">
                 <div class="card-header">
-                    <span class="card-tag">1. for Loop</span>
-                    <h2>Classic Counting Loop</h2>
+                    <span class="card-tag">1. Function Declaration</span>
+                    <h2>Named Function (Hoisted)</h2>
                 </div>
-                <p class="card-desc">Repeats a block of code a specific number of times using an index variable.</p>
+                <p class="card-desc">Declared with the <code>function</code> keyword. Can be invoked anywhere in the scope, even before declaration.</p>
                 
                 <div class="card-body">
-                    <label for="for-input">Loop Count (1 to 12):</label>
+                    <label for="name-input">Your Name:</label>
                     <div class="input-group">
-                        <input type="number" id="for-input" placeholder="e.g. 5" min="1" max="12" value="5">
-                        <button id="run-for-btn" onclick="handleForLoop()">Run Loop</button>
+                        <input type="text" id="name-input" placeholder="e.g. Harish" value="Harish">
+                        <button id="run-greet-btn" onclick="handleGreeting()">Run Function</button>
                     </div>
-                    <div class="result-box chips-wrap" id="for-result">Running loop...</div>
+                    <div class="result-box chips-wrap" id="declaration-result">Ready...</div>
                 </div>
 
                 <div class="code-preview">
-<pre><code>// for (initialization; condition; increment)
-for (let i = 1; i &lt;= 5; i++) {
-    console.log("i = " + i);
-}</code></pre>
+<pre><code>// Function Declaration
+function greetUser(name) {
+    return `Hello, ${name}! Welcome to Day 23.`;
+}
+
+greetUser("Harish"); // Hoisted & callable</code></pre>
                 </div>
             </section>
 
-            <!-- Card 2: while Loop -->
-            <section class="card" id="card-while-loop">
+            <!-- Card 2: Function Expression -->
+            <section class="card" id="card-expression">
                 <div class="card-header">
-                    <span class="card-tag">2. while Loop</span>
-                    <h2>Condition-Based Countdown</h2>
+                    <span class="card-tag">2. Function Expression</span>
+                    <h2>Anonymous Function Variable</h2>
                 </div>
-                <p class="card-desc">Executes repeatedly as long as the specified condition evaluates to true.</p>
+                <p class="card-desc">An anonymous function assigned to a variable. Not hoisted; must be defined before invocation.</p>
                 
                 <div class="card-body">
-                    <label for="while-input">Countdown Start (1 to 10):</label>
-                    <div class="input-group">
-                        <input type="number" id="while-input" placeholder="e.g. 5" min="1" max="10" value="5">
-                        <button id="run-while-btn" onclick="handleWhileLoop()">Start Countdown</button>
+                    <label>Rectangle Dimensions:</label>
+                    <div class="input-row">
+                        <div class="input-col">
+                            <label for="rect-width">Width</label>
+                            <input type="number" id="rect-width" placeholder="Width" min="1" max="100" value="6">
+                        </div>
+                        <div class="input-col">
+                            <label for="rect-height">Height</label>
+                            <input type="number" id="rect-height" placeholder="Height" min="1" max="100" value="4">
+                        </div>
                     </div>
-                    <div class="result-box chips-wrap" id="while-result">Running countdown...</div>
-                </div>
-
-                <div class="code-preview">
-<pre><code>let count = 5;
-while (count &gt; 0) {
-    console.log(count);
-    count--; // decrement to avoid infinite loop
-}</code></pre>
-                </div>
-            </section>
-
-            <!-- Card 3: do...while Loop -->
-            <section class="card" id="card-dowhile-loop">
-                <div class="card-header">
-                    <span class="card-tag">3. do...while Loop</span>
-                    <h2>Runs At Least Once</h2>
-                </div>
-                <p class="card-desc">Always executes the block once before evaluating the condition.</p>
-                
-                <div class="card-body">
-                    <label>Test Execution Behavior:</label>
                     <div class="btn-group">
-                        <button class="btn-secondary" onclick="handleDoWhileLoop(false)">Standard Run (1 to 4)</button>
-                        <button class="btn-warning" onclick="handleDoWhileLoop(true)">False Initial Condition</button>
+                        <button onclick="handleAreaCalc()">Calculate Area</button>
                     </div>
-                    <div class="result-box chips-wrap" id="dowhile-result">Click an option above...</div>
+                    <div class="result-box chips-wrap" id="expression-result">Ready...</div>
                 </div>
 
                 <div class="code-preview">
-<pre><code>let val = 10;
-do {
-    // Executes once even though 10 &lt;= 5 is false!
-    console.log("val = " + val);
-    val++;
-} while (val &lt;= 5);</code></pre>
+<pre><code>// Function Expression
+const calculateArea = function(width, height) {
+    return width * height;
+};
+
+calculateArea(6, 4); // Returns 24</code></pre>
                 </div>
             </section>
 
-            <!-- Card 4: for...of Loop + break & continue -->
-            <section class="card" id="card-forof-loop">
+            <!-- Card 3: Arrow Function -->
+            <section class="card" id="card-arrow">
                 <div class="card-header">
-                    <span class="card-tag">4. for...of & Control</span>
-                    <h2>Array Iteration & Flow</h2>
+                    <span class="card-tag">3. Arrow Function (ES6)</span>
+                    <h2>Modern Concise Syntax</h2>
                 </div>
-                <p class="card-desc">Iterates over iterable values (arrays) and controls flow using <code>break</code> & <code>continue</code>.</p>
+                <p class="card-desc">Compact arrow syntax <code>=&gt;</code> ideal for quick computations and cleaner, modern JavaScript code.</p>
                 
                 <div class="card-body">
-                    <label>Control Flow Actions:</label>
-                    <div class="btn-group">
-                        <button class="btn-secondary" onclick="handleForOf('all')">Iterate All</button>
-                        <button class="btn-warning" onclick="handleForOf('skip-banana')">Skip Banana (continue)</button>
-                        <button class="btn-danger" onclick="handleForOf('stop-orange')">Stop at Orange (break)</button>
+                    <label>Discount Calculator:</label>
+                    <div class="input-row">
+                        <div class="input-col">
+                            <label for="item-price">Original Price ($)</label>
+                            <input type="number" id="item-price" placeholder="Price" min="1" max="10000" value="120">
+                        </div>
+                        <div class="input-col">
+                            <label for="item-discount">Discount (%)</label>
+                            <input type="number" id="item-discount" placeholder="Discount" min="0" max="100" value="20">
+                        </div>
                     </div>
-                    <div class="result-box chips-wrap" id="forof-result">Click a button above...</div>
+                    <div class="btn-group">
+                        <button onclick="handleDiscountCalc()">Apply Discount</button>
+                    </div>
+                    <div class="result-box chips-wrap" id="arrow-result">Ready...</div>
                 </div>
 
                 <div class="code-preview">
-<pre><code>const fruits = ["🍎 Apple", "🍌 Banana", "🍊 Orange"];
-for (const item of fruits) {
-    if (item === "🍌 Banana") continue; // skip
-    if (item === "🍊 Orange") break;    // stop
-    console.log(item);
+<pre><code>// ES6 Arrow Function
+const calculateDiscount = (price, discountPercent) => {
+    const discountAmount = (price * discountPercent) / 100;
+    return price - discountAmount;
+};
+
+calculateDiscount(120, 20); // Returns 96.00</code></pre>
+                </div>
+            </section>
+
+            <!-- Card 4: Default Parameters -->
+            <section class="card" id="card-defaults">
+                <div class="card-header">
+                    <span class="card-tag">4. Default Parameters</span>
+                    <h2>Fallback Argument Handling</h2>
+                </div>
+                <p class="card-desc">Assign default fallback values directly in the parameter list to safeguard against missing arguments.</p>
+                
+                <div class="card-body">
+                    <div class="input-row">
+                        <div class="input-col">
+                            <label for="custom-username">Username</label>
+                            <input type="text" id="custom-username" placeholder="e.g. Harish" value="Harish">
+                        </div>
+                        <div class="input-col">
+                            <label for="custom-role">Role</label>
+                            <input type="text" id="custom-role" placeholder="e.g. Developer" value="Frontend Developer">
+                        </div>
+                        <div class="input-col">
+                            <label for="custom-status">Status</label>
+                            <input type="text" id="custom-status" placeholder="e.g. Coding" value="Active">
+                        </div>
+                    </div>
+                    <div class="btn-group">
+                        <button class="btn-secondary" onclick="handleDefaultParams(false)">Use Default Parameters</button>
+                        <button onclick="handleDefaultParams(true)">Use Custom Arguments</button>
+                    </div>
+                    <div class="result-box chips-wrap" id="defaults-result">Ready...</div>
+                </div>
+
+                <div class="code-preview">
+<pre><code>// Default Parameters
+function createProfile(user = "Guest User", role = "Explorer") {
+    return { user, role };
+}
+
+createProfile(); // Uses "Guest User" & "Explorer"</code></pre>
+                </div>
+            </section>
+
+            <!-- Card 5: Return vs. Void -->
+            <section class="card" id="card-return" style="grid-column: 1 / -1;">
+                <div class="card-header">
+                    <span class="card-tag">5. Return vs. Void (Console)</span>
+                    <h2>Output Values & Reusability</h2>
+                </div>
+                <p class="card-desc">A <code>return</code> statement passes computed data back to the caller for storage or reuse. Functions without <code>return</code> evaluate to <code>undefined</code>.</p>
+                
+                <div class="card-body">
+                    <label>Test Function Execution:</label>
+                    <div class="btn-group">
+                        <button class="btn-secondary" onclick="handleReturnDemo(true)">Run addWithReturn(15, 25)</button>
+                        <button class="btn-warning" onclick="handleReturnDemo(false)">Run addWithoutReturn(15, 25)</button>
+                    </div>
+                    <div class="result-box chips-wrap" id="return-result">Click a button above...</div>
+                </div>
+
+                <div class="code-preview">
+<pre><code>// With Return (Usable output)
+function addWithReturn(a, b) {
+    return a + b; // Storable in variable!
+}
+
+// Without Return (Void / Console only)
+function addWithoutReturn(a, b) {
+    console.log(a + b); // Returns undefined
 }</code></pre>
                 </div>
             </section>
@@ -138,8 +202,8 @@ for (const item of fruits) {
 
         <!-- Footer -->
         <footer class="footer">
-            <p>Day 22 of 100 Days Frontend • Built by <a href="https://github.com/harish-0987" target="_blank" rel="noopener">Harish</a></p>
-            <p><a href="https://github.com/harish-0987/DAY-22-OF-FRONTEND" target="_blank" rel="noopener" class="repo-link">View on GitHub ↗</a></p>
+            <p>Day 23 of 100 Days Frontend • Built by <a href="https://github.com/harish-0987" target="_blank" rel="noopener">Harish</a></p>
+            <p><a href="https://github.com/harish-0987/DAY-23-OF-FRONTEND" target="_blank" rel="noopener" class="repo-link">View on GitHub ↗</a></p>
         </footer>
     </div>
 

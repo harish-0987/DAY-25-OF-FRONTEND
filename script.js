@@ -1,160 +1,236 @@
 // ======================================================
-// Day 22: Basic Level Loops in JavaScript
+// Day 23: Basic Level Functions in JavaScript
+// 100 Days Frontend Challenge by Harish (@harish-0987)
 // ======================================================
 
-// 1. Classic for Loop (Counting from 1 to N)
-// Syntax: for (initialization; condition; increment/decrement)
-function runForLoop(count) {
-    const results = [];
-    for (let i = 1; i <= count; i++) {
-        results.push(`i = ${i}`);
+// ------------------------------------------------------
+// 1. Function Declaration (Named Function)
+// ------------------------------------------------------
+// Characteristics:
+// - Declared with the 'function' keyword.
+// - Hoisted to the top of their scope (can be called before declaration).
+function greetUser(name) {
+    if (!name || name.trim() === "") {
+        return "Hello, Friend! 👋 Welcome to Day 23.";
     }
-    return results;
+    return `Hello, ${name.trim()}! 👋 Welcome to Day 23.`;
 }
 
-// 2. while Loop (Countdown timer)
-// Syntax: while (condition) { ... }
-function runWhileLoop(startNumber) {
-    const steps = [];
-    let count = startNumber;
-    while (count > 0) {
-        steps.push(`Count: ${count}`);
-        count--;
+// ------------------------------------------------------
+// 2. Function Expression (Anonymous Function in a Variable)
+// ------------------------------------------------------
+// Characteristics:
+// - A function stored inside a variable.
+// - NOT hoisted: Must be defined before calling.
+const calculateArea = function(width, height) {
+    const parsedWidth = parseFloat(width);
+    const parsedHeight = parseFloat(height);
+
+    if (isNaN(parsedWidth) || isNaN(parsedHeight) || parsedWidth <= 0 || parsedHeight <= 0) {
+        return null;
     }
-    steps.push("🚀 Blast Off!");
-    return steps;
-}
+    return parsedWidth * parsedHeight;
+};
 
-// 3. do...while Loop (Guaranteed to execute at least once)
-// Syntax: do { ... } while (condition);
-function runDoWhileLoop(startVal, limit) {
-    const steps = [];
-    let val = startVal;
-    let iterations = 0;
+// ------------------------------------------------------
+// 3. Arrow Function (Modern ES6 Syntax)
+// ------------------------------------------------------
+// Characteristics:
+// - Uses the '=>' syntax.
+// - Compact and concise.
+// - Implicit return when braces '{}' are omitted.
+const calculateDiscount = (price, discountPercent) => {
+    const p = parseFloat(price);
+    const d = parseFloat(discountPercent);
 
-    do {
-        iterations++;
-        steps.push(`Step ${iterations}: val = ${val}`);
-        val++;
-    } while (val <= limit);
-
-    return steps;
-}
-
-// 4. for...of Loop (Iterating over elements of an Array)
-// Syntax: for (const item of array) { ... }
-function runForOfLoop(items, mode = "all") {
-    const output = [];
-
-    for (const item of items) {
-        if (mode === "skip-banana" && item.includes("Banana")) {
-            output.push(`${item} (Skipped via continue ⏭️)`);
-            continue; // Skip this iteration
-        }
-
-        if (mode === "stop-orange" && item.includes("Orange")) {
-            output.push(`${item} (Stopped via break 🛑)`);
-            break; // Terminate loop early
-        }
-
-        output.push(item);
+    if (isNaN(p) || isNaN(d) || p < 0 || d < 0 || d > 100) {
+        return null;
     }
 
-    return output;
+    const discountAmount = (p * d) / 100;
+    const finalPrice = p - discountAmount;
+
+    return {
+        originalPrice: p.toFixed(2),
+        discountPercent: d,
+        discountAmount: discountAmount.toFixed(2),
+        finalPrice: finalPrice.toFixed(2)
+    };
+};
+
+// ------------------------------------------------------
+// 4. Default Parameters & Arguments
+// ------------------------------------------------------
+// Characteristics:
+// - Provide fallback values if arguments are omitted or undefined.
+function createProfile(username = "Guest User", role = "Explorer", status = "Active") {
+    return {
+        username: username.trim() || "Guest User",
+        role: role.trim() || "Explorer",
+        status: status.trim() || "Active"
+    };
+}
+
+// ------------------------------------------------------
+// 5. Return Value vs. console.log (Void)
+// ------------------------------------------------------
+// Function WITH return: yields data back to caller.
+function addWithReturn(a, b) {
+    return a + b;
+}
+
+// Function WITHOUT return: logs to console, but returns undefined.
+function addWithoutReturn(a, b) {
+    const sum = a + b;
+    console.log(`[Inside addWithoutReturn] The sum is ${sum}`);
+    // No return statement -> implicitly returns undefined
 }
 
 // ======================================================
 // DOM UI Handlers for Interactive Playground
 // ======================================================
 
-// Helper: Render items as modern chips
-function renderChips(containerId, items, isSuccess = true) {
+// Helper: Render structured output in result box
+function setResult(containerId, content, isSuccess = true) {
     const container = document.getElementById(containerId);
     if (!container) return;
 
-    container.innerHTML = "";
     container.className = isSuccess ? "result-box success chips-wrap" : "result-box error";
+    container.innerHTML = "";
 
-    if (!Array.isArray(items) || items.length === 0) {
-        container.textContent = "No items to display.";
+    if (typeof content === "string") {
+        container.textContent = content;
         return;
     }
 
-    items.forEach((text, index) => {
-        const chip = document.createElement("span");
-        chip.className = "step-chip";
-        chip.textContent = text;
-        chip.style.animationDelay = `${index * 50}ms`;
-        container.appendChild(chip);
-    });
+    if (Array.isArray(content)) {
+        content.forEach((text, index) => {
+            const chip = document.createElement("span");
+            chip.className = "step-chip";
+            chip.textContent = text;
+            chip.style.animationDelay = `${index * 40}ms`;
+            container.appendChild(chip);
+        });
+    }
 }
 
-// Handler 1: for Loop
-function handleForLoop() {
-    const input = document.getElementById("for-input");
-    const count = parseInt(input.value, 10);
+// Handler 1: Function Declaration (Greeting)
+function handleGreeting() {
+    const nameInput = document.getElementById("name-input");
+    const nameVal = nameInput ? nameInput.value : "";
+    const message = greetUser(nameVal);
 
-    if (isNaN(count) || count < 1 || count > 12) {
-        const resultBox = document.getElementById("for-result");
-        resultBox.className = "result-box error";
-        resultBox.textContent = "Please enter a number between 1 and 12!";
+    setResult("declaration-result", [
+        `Output: "${message}"`,
+        `Type: Function Declaration`,
+        `Hoisted: Yes ✅`
+    ], true);
+}
+
+// Handler 2: Function Expression (Rectangle Area)
+function handleAreaCalc() {
+    const widthInput = document.getElementById("rect-width");
+    const heightInput = document.getElementById("rect-height");
+
+    const w = widthInput ? widthInput.value : 0;
+    const h = heightInput ? heightInput.value : 0;
+
+    const area = calculateArea(w, h);
+
+    if (area === null) {
+        setResult("expression-result", "Please enter positive numbers for width and height.", false);
         return;
     }
 
-    const steps = runForLoop(count);
-    renderChips("for-result", steps);
+    setResult("expression-result", [
+        `Width: ${w}`,
+        `Height: ${h}`,
+        `Area: ${area} sq units`,
+        `Type: Function Expression 📦`
+    ], true);
 }
 
-// Handler 2: while Loop
-function handleWhileLoop() {
-    const input = document.getElementById("while-input");
-    const startNum = parseInt(input.value, 10);
+// Handler 3: Arrow Function (Discount Calculation)
+function handleDiscountCalc() {
+    const priceInput = document.getElementById("item-price");
+    const discountInput = document.getElementById("item-discount");
 
-    if (isNaN(startNum) || startNum < 1 || startNum > 10) {
-        const resultBox = document.getElementById("while-result");
-        resultBox.className = "result-box error";
-        resultBox.textContent = "Please enter a countdown between 1 and 10!";
+    const price = priceInput ? priceInput.value : 100;
+    const discount = discountInput ? discountInput.value : 15;
+
+    const result = calculateDiscount(price, discount);
+
+    if (!result) {
+        setResult("arrow-result", "Please enter a valid price and discount (0% - 100%).", false);
         return;
     }
 
-    const steps = runWhileLoop(startNum);
-    renderChips("while-result", steps);
+    setResult("arrow-result", [
+        `Original: $${result.originalPrice}`,
+        `Discount: ${result.discountPercent}% (-$${result.discountAmount})`,
+        `Final Price: $${result.finalPrice} 🏷️`,
+        `Syntax: Arrow =>`
+    ], true);
 }
 
-// Handler 3: do...while Loop
-function handleDoWhileLoop(isFalseInitial) {
-    let steps;
-    const resultBox = document.getElementById("dowhile-result");
+// Handler 4: Default Parameters
+function handleDefaultParams(useCustom = false) {
+    let profile;
 
-    if (isFalseInitial) {
-        // Start val is 10, limit is 5.
-        // Condition (10 <= 5) is FALSE from the start, but loop runs once!
-        steps = runDoWhileLoop(10, 5);
-        renderChips("dowhile-result", steps);
-        
+    if (useCustom) {
+        const username = document.getElementById("custom-username").value || "Harish";
+        const role = document.getElementById("custom-role").value || "Frontend Developer";
+        const status = document.getElementById("custom-status").value || "Online";
+        profile = createProfile(username, role, status);
+    } else {
+        // Calling with no arguments -> relies entirely on defaults!
+        profile = createProfile();
+    }
+
+    setResult("defaults-result", [
+        `User: ${profile.username}`,
+        `Role: ${profile.role}`,
+        `Status: ${profile.status}`,
+        useCustom ? "Used Custom Arguments 👤" : "Used Default Parameters ⚙️"
+    ], true);
+}
+
+// Handler 5: Return vs Console.log
+function handleReturnDemo(withReturn = true) {
+    const container = document.getElementById("return-result");
+    if (!container) return;
+
+    if (withReturn) {
+        const value = addWithReturn(15, 25);
+        setResult("return-result", [
+            `Function: addWithReturn(15, 25)`,
+            `Returned Value: ${value}`,
+            `Can store in variable? Yes ✅`,
+            `Result type: ${typeof value}`
+        ], true);
+    } else {
+        const value = addWithoutReturn(15, 25);
+        setResult("return-result", [
+            `Function: addWithoutReturn(15, 25)`,
+            `Returned Value: ${value} (undefined)`,
+            `Check DevTools Console for log 🔍`,
+            `Result type: ${typeof value}`
+        ], true);
+
         const note = document.createElement("div");
         note.className = "note-text";
-        note.textContent = "💡 Condition (10 <= 5) was false, but body executed once!";
-        resultBox.appendChild(note);
-    } else {
-        // Normal case: Start 1, limit 4 -> runs 4 times
-        steps = runDoWhileLoop(1, 4);
-        renderChips("dowhile-result", steps);
+        note.textContent = "💡 Without a return statement, JavaScript returns undefined by default.";
+        container.appendChild(note);
     }
 }
 
-// Handler 4: for...of Loop
-const defaultFruits = ["🍎 Apple", "🍌 Banana", "🍊 Orange", "🍇 Grape", "🥭 Mango"];
-
-function handleForOf(mode = "all") {
-    const steps = runForOfLoop(defaultFruits, mode);
-    renderChips("forof-result", steps);
-}
-
-// Initial triggers on load
+// ------------------------------------------------------
+// Initial triggers on page load
+// ------------------------------------------------------
 window.addEventListener("DOMContentLoaded", () => {
-    handleForLoop();
-    handleWhileLoop();
-    handleDoWhileLoop(false);
-    handleForOf("all");
+    handleGreeting();
+    handleAreaCalc();
+    handleDiscountCalc();
+    handleDefaultParams(false);
+    handleReturnDemo(true);
 });
