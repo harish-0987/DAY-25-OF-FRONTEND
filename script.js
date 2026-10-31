@@ -1,110 +1,130 @@
 // ======================================================
-// Day 23: Basic Level Functions in JavaScript
+// Day 24: Basic Level Array and String Methods in JavaScript
 // 100 Days Frontend Challenge by Harish (@harish-0987)
 // ======================================================
 
 // ------------------------------------------------------
-// 1. Function Declaration (Named Function)
+// 1. BASIC STRING METHODS
 // ------------------------------------------------------
-// Characteristics:
-// - Declared with the 'function' keyword.
-// - Hoisted to the top of their scope (can be called before declaration).
-function greetUser(name) {
-    if (!name || name.trim() === "") {
-        return "Hello, Friend! 👋 Welcome to Day 23.";
+
+// toUpperCase & toLowerCase: Case manipulation
+function changeCase(text, mode = "upper") {
+    if (mode === "upper") {
+        return text.toUpperCase();
     }
-    return `Hello, ${name.trim()}! 👋 Welcome to Day 23.`;
+    return text.toLowerCase();
+}
+
+// trim: Remove leading and trailing whitespace
+function cleanWhitespace(text) {
+    return text.trim();
+}
+
+// includes: Check if a substring exists (returns boolean)
+function checkStringContains(text, searchTerm) {
+    return text.includes(searchTerm);
+}
+
+// slice: Extract a portion of text
+function extractSubstring(text, start, end) {
+    const s = parseInt(start, 10) || 0;
+    const e = end !== "" ? parseInt(end, 10) : undefined;
+    return text.slice(s, e);
+}
+
+// replace: Replace first occurrence of target with replacement
+function replaceText(text, target, replacement) {
+    return text.replace(target, replacement);
 }
 
 // ------------------------------------------------------
-// 2. Function Expression (Anonymous Function in a Variable)
+// 2. BASIC ARRAY METHODS
 // ------------------------------------------------------
-// Characteristics:
-// - A function stored inside a variable.
-// - NOT hoisted: Must be defined before calling.
-const calculateArea = function(width, height) {
-    const parsedWidth = parseFloat(width);
-    const parsedHeight = parseFloat(height);
 
-    if (isNaN(parsedWidth) || isNaN(parsedHeight) || parsedWidth <= 0 || parsedHeight <= 0) {
-        return null;
-    }
-    return parsedWidth * parsedHeight;
-};
+// Active array state for live demonstration
+let activeArray = ["🍎 Apple", "🍌 Banana", "🍊 Orange"];
 
-// ------------------------------------------------------
-// 3. Arrow Function (Modern ES6 Syntax)
-// ------------------------------------------------------
-// Characteristics:
-// - Uses the '=>' syntax.
-// - Compact and concise.
-// - Implicit return when braces '{}' are omitted.
-const calculateDiscount = (price, discountPercent) => {
-    const p = parseFloat(price);
-    const d = parseFloat(discountPercent);
+// push: Add item to the end
+function addItemToEnd(arr, item) {
+    arr.push(item);
+    return arr;
+}
 
-    if (isNaN(p) || isNaN(d) || p < 0 || d < 0 || d > 100) {
-        return null;
-    }
+// pop: Remove item from the end
+function removeItemFromEnd(arr) {
+    return arr.pop(); // returns removed element
+}
 
-    const discountAmount = (p * d) / 100;
-    const finalPrice = p - discountAmount;
+// unshift: Add item to the beginning
+function addItemToBeginning(arr, item) {
+    arr.unshift(item);
+    return arr;
+}
 
-    return {
-        originalPrice: p.toFixed(2),
-        discountPercent: d,
-        discountAmount: discountAmount.toFixed(2),
-        finalPrice: finalPrice.toFixed(2)
-    };
-};
+// shift: Remove item from the beginning
+function removeItemFromBeginning(arr) {
+    return arr.shift(); // returns removed element
+}
 
-// ------------------------------------------------------
-// 4. Default Parameters & Arguments
-// ------------------------------------------------------
-// Characteristics:
-// - Provide fallback values if arguments are omitted or undefined.
-function createProfile(username = "Guest User", role = "Explorer", status = "Active") {
-    return {
-        username: username.trim() || "Guest User",
-        role: role.trim() || "Explorer",
-        status: status.trim() || "Active"
-    };
+// reverse: Reverse items in-place
+function reverseArray(arr) {
+    return arr.reverse();
+}
+
+// slice: Extract a subarray without mutating original
+function sliceArray(arr, start, end) {
+    return arr.slice(start, end);
+}
+
+// includes & indexOf: Search in array
+function searchInArray(arr, searchTerm) {
+    const isPresent = arr.some(item => item.toLowerCase().includes(searchTerm.toLowerCase()));
+    return isPresent;
 }
 
 // ------------------------------------------------------
-// 5. Return Value vs. console.log (Void)
+// 3. THE BRIDGE: split() and join()
 // ------------------------------------------------------
-// Function WITH return: yields data back to caller.
-function addWithReturn(a, b) {
-    return a + b;
+
+// split: Convert string to array
+function stringToArray(str, separator = ",") {
+    return str.split(separator);
 }
 
-// Function WITHOUT return: logs to console, but returns undefined.
-function addWithoutReturn(a, b) {
-    const sum = a + b;
-    console.log(`[Inside addWithoutReturn] The sum is ${sum}`);
-    // No return statement -> implicitly returns undefined
+// join: Convert array to string
+function arrayToString(arr, separator = " - ") {
+    return arr.join(separator);
+}
+
+// Reverse a string using split -> reverse -> join
+function reverseString(str) {
+    return str.split("").reverse().join("");
 }
 
 // ======================================================
 // DOM UI Handlers for Interactive Playground
 // ======================================================
 
-// Helper: Render structured output in result box
-function setResult(containerId, content, isSuccess = true) {
+// Helper: Render items or status chips
+function renderChips(containerId, items, isSuccess = true) {
     const container = document.getElementById(containerId);
     if (!container) return;
 
     container.className = isSuccess ? "result-box success chips-wrap" : "result-box error";
     container.innerHTML = "";
 
-    if (typeof content === "string") {
-        container.textContent = content;
+    if (typeof items === "string") {
+        container.textContent = items;
         return;
     }
 
-    if (Array.isArray(content)) {
-        content.forEach((text, index) => {
+    if (Array.isArray(items)) {
+        if (items.length === 0) {
+            container.textContent = "[Empty Array]";
+            return;
+        }
+
+        items.forEach((text, index) => {
             const chip = document.createElement("span");
             chip.className = "step-chip";
             chip.textContent = text;
@@ -114,123 +134,177 @@ function setResult(containerId, content, isSuccess = true) {
     }
 }
 
-// Handler 1: Function Declaration (Greeting)
-function handleGreeting() {
-    const nameInput = document.getElementById("name-input");
-    const nameVal = nameInput ? nameInput.value : "";
-    const message = greetUser(nameVal);
+// --- Handler 1: String Case & Trim ---
+function handleStringTransform(action) {
+    const input = document.getElementById("str-transform-input");
+    const rawVal = input ? input.value : "";
 
-    setResult("declaration-result", [
-        `Output: "${message}"`,
-        `Type: Function Declaration`,
-        `Hoisted: Yes ✅`
+    let resultText = "";
+    let methodUsed = "";
+
+    if (action === "upper") {
+        resultText = changeCase(rawVal, "upper");
+        methodUsed = ".toUpperCase()";
+    } else if (action === "lower") {
+        resultText = changeCase(rawVal, "lower");
+        methodUsed = ".toLowerCase()";
+    } else if (action === "trim") {
+        resultText = cleanWhitespace(rawVal);
+        methodUsed = ".trim()";
+    }
+
+    renderChips("str-transform-result", [
+        `Result: "${resultText}"`,
+        `Method: ${methodUsed}`,
+        `Length: ${resultText.length} chars`
     ], true);
 }
 
-// Handler 2: Function Expression (Rectangle Area)
-function handleAreaCalc() {
-    const widthInput = document.getElementById("rect-width");
-    const heightInput = document.getElementById("rect-height");
+// --- Handler 2: String Search & Slice & Replace ---
+function handleStringSearch() {
+    const textInput = document.getElementById("str-search-text");
+    const queryInput = document.getElementById("str-search-query");
 
-    const w = widthInput ? widthInput.value : 0;
-    const h = heightInput ? heightInput.value : 0;
+    const text = textInput ? textInput.value : "";
+    const query = queryInput ? queryInput.value : "";
 
-    const area = calculateArea(w, h);
+    const hasMatch = checkStringContains(text, query);
+    const index = text.indexOf(query);
 
-    if (area === null) {
-        setResult("expression-result", "Please enter positive numbers for width and height.", false);
+    renderChips("str-search-result", [
+        `includes("${query}"): ${hasMatch ? "true ✅" : "false ❌"}`,
+        `indexOf("${query}"): ${index}`,
+        `Original: "${text}"`
+    ], true);
+}
+
+function handleStringReplace() {
+    const textInput = document.getElementById("str-search-text");
+    const findInput = document.getElementById("str-find");
+    const replaceWithInput = document.getElementById("str-replace-with");
+
+    const text = textInput ? textInput.value : "";
+    const findVal = findInput ? findInput.value : "";
+    const repVal = replaceWithInput ? replaceWithInput.value : "";
+
+    const newStr = replaceText(text, findVal, repVal);
+
+    renderChips("str-search-result", [
+        `Replaced: "${newStr}"`,
+        `Method: .replace("${findVal}", "${repVal}")`
+    ], true);
+}
+
+// --- Handler 3: Array Mutation (Push, Pop, Shift, Unshift) ---
+function renderActiveArray(actionMsg = "") {
+    const chips = activeArray.map((item, idx) => `[${idx}] ${item}`);
+    if (actionMsg) {
+        chips.unshift(`⚡ ${actionMsg}`);
+    }
+    renderChips("array-mutate-result", chips, true);
+}
+
+function handleArrayPush() {
+    const input = document.getElementById("array-item-input");
+    const val = input && input.value.trim() ? input.value.trim() : "🍇 Grape";
+    addItemToEnd(activeArray, val);
+    renderActiveArray(`.push("${val}") added to end`);
+}
+
+function handleArrayPop() {
+    if (activeArray.length === 0) {
+        renderChips("array-mutate-result", "Array is already empty!", false);
         return;
     }
-
-    setResult("expression-result", [
-        `Width: ${w}`,
-        `Height: ${h}`,
-        `Area: ${area} sq units`,
-        `Type: Function Expression 📦`
-    ], true);
+    const removed = removeItemFromEnd(activeArray);
+    renderActiveArray(`.pop() removed "${removed}" from end`);
 }
 
-// Handler 3: Arrow Function (Discount Calculation)
-function handleDiscountCalc() {
-    const priceInput = document.getElementById("item-price");
-    const discountInput = document.getElementById("item-discount");
+function handleArrayUnshift() {
+    const input = document.getElementById("array-item-input");
+    const val = input && input.value.trim() ? input.value.trim() : "🍓 Strawberry";
+    addItemToBeginning(activeArray, val);
+    renderActiveArray(`.unshift("${val}") added to start`);
+}
 
-    const price = priceInput ? priceInput.value : 100;
-    const discount = discountInput ? discountInput.value : 15;
-
-    const result = calculateDiscount(price, discount);
-
-    if (!result) {
-        setResult("arrow-result", "Please enter a valid price and discount (0% - 100%).", false);
+function handleArrayShift() {
+    if (activeArray.length === 0) {
+        renderChips("array-mutate-result", "Array is already empty!", false);
         return;
     }
+    const removed = removeItemFromBeginning(activeArray);
+    renderActiveArray(`.shift() removed "${removed}" from start`);
+}
 
-    setResult("arrow-result", [
-        `Original: $${result.originalPrice}`,
-        `Discount: ${result.discountPercent}% (-$${result.discountAmount})`,
-        `Final Price: $${result.finalPrice} 🏷️`,
-        `Syntax: Arrow =>`
+function handleArrayReset() {
+    activeArray = ["🍎 Apple", "🍌 Banana", "🍊 Orange"];
+    renderActiveArray("Array reset to default");
+}
+
+// --- Handler 4: Array Search, Reverse & Slice ---
+function handleArrayReverse() {
+    reverseArray(activeArray);
+    renderActiveArray(".reverse() reversed items in-place");
+}
+
+function handleArraySlice() {
+    const sliced = sliceArray(activeArray, 0, 2);
+    const chips = sliced.map((item, idx) => `[${idx}] ${item}`);
+    chips.unshift(".slice(0, 2) (shallow copy, original unchanged):");
+    renderChips("array-util-result", chips, true);
+}
+
+function handleArrayCheck() {
+    const queryInput = document.getElementById("array-search-input");
+    const query = queryInput ? queryInput.value.trim() : "Apple";
+
+    const isPresent = searchInArray(activeArray, query);
+
+    renderChips("array-util-result", [
+        `Search: "${query}"`,
+        `Found in array: ${isPresent ? "true ✅" : "false ❌"}`,
+        `Array size: ${activeArray.length}`
     ], true);
 }
 
-// Handler 4: Default Parameters
-function handleDefaultParams(useCustom = false) {
-    let profile;
+// --- Handler 5: Bridge (split & join & reverse string) ---
+function handleBridgeSplit() {
+    const input = document.getElementById("bridge-input");
+    const text = input ? input.value : "HTML,CSS,JavaScript,React";
+    const arr = stringToArray(text, ",");
 
-    if (useCustom) {
-        const username = document.getElementById("custom-username").value || "Harish";
-        const role = document.getElementById("custom-role").value || "Frontend Developer";
-        const status = document.getElementById("custom-status").value || "Online";
-        profile = createProfile(username, role, status);
-    } else {
-        // Calling with no arguments -> relies entirely on defaults!
-        profile = createProfile();
-    }
+    const chips = arr.map((item, i) => `[${i}] ${item.trim()}`);
+    chips.unshift('.split(",") created Array:');
+    renderChips("bridge-result", chips, true);
+}
 
-    setResult("defaults-result", [
-        `User: ${profile.username}`,
-        `Role: ${profile.role}`,
-        `Status: ${profile.status}`,
-        useCustom ? "Used Custom Arguments 👤" : "Used Default Parameters ⚙️"
+function handleBridgeJoin() {
+    const joined = arrayToString(activeArray, " ➔ ");
+    renderChips("bridge-result", [
+        `Active Array joined with " ➔ ":`,
+        `"${joined}"`
     ], true);
 }
 
-// Handler 5: Return vs Console.log
-function handleReturnDemo(withReturn = true) {
-    const container = document.getElementById("return-result");
-    if (!container) return;
+function handleBridgeReverseWord() {
+    const input = document.getElementById("bridge-input");
+    const text = input ? input.value : "Frontend";
+    const reversed = reverseString(text);
 
-    if (withReturn) {
-        const value = addWithReturn(15, 25);
-        setResult("return-result", [
-            `Function: addWithReturn(15, 25)`,
-            `Returned Value: ${value}`,
-            `Can store in variable? Yes ✅`,
-            `Result type: ${typeof value}`
-        ], true);
-    } else {
-        const value = addWithoutReturn(15, 25);
-        setResult("return-result", [
-            `Function: addWithoutReturn(15, 25)`,
-            `Returned Value: ${value} (undefined)`,
-            `Check DevTools Console for log 🔍`,
-            `Result type: ${typeof value}`
-        ], true);
-
-        const note = document.createElement("div");
-        note.className = "note-text";
-        note.textContent = "💡 Without a return statement, JavaScript returns undefined by default.";
-        container.appendChild(note);
-    }
+    renderChips("bridge-result", [
+        `Original: "${text}"`,
+        `Reversed: "${reversed}"`,
+        `Pattern: .split("").reverse().join("")`
+    ], true);
 }
 
 // ------------------------------------------------------
 // Initial triggers on page load
 // ------------------------------------------------------
 window.addEventListener("DOMContentLoaded", () => {
-    handleGreeting();
-    handleAreaCalc();
-    handleDiscountCalc();
-    handleDefaultParams(false);
-    handleReturnDemo(true);
+    handleStringTransform("upper");
+    handleStringSearch();
+    renderActiveArray("Initial Array State");
+    handleArraySlice();
+    handleBridgeSplit();
 });

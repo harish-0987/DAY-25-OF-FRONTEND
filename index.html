@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Day 23 of Frontend: Basic Level Functions in JavaScript (Declarations, Expressions, Arrow Functions, Default Parameters, and Return Values).">
+    <meta name="description" content="Day 24 of Frontend: Basic Level Array and String Methods in JavaScript (toUpperCase, trim, includes, slice, push, pop, shift, unshift, split, join).">
     <meta name="author" content="Harish (harish-0987)">
-    <title>Day 23 - Basic Functions in JavaScript | Harish</title>
+    <title>Day 24 - Basic Array & String Methods | Harish</title>
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -20,181 +20,183 @@
     <div class="container">
         <!-- Header -->
         <header class="header">
-            <div class="badge">Day 23 of 100 Days Frontend</div>
-            <h1>JavaScript <span class="highlight">Functions</span></h1>
-            <p class="subtitle">A clean and simple introduction to writing reusable code with <code>Function Declarations</code>, <code>Expressions</code>, <code>Arrow Functions</code>, and <code>Default Parameters</code>.</p>
+            <div class="badge">Day 24 of 100 Days Frontend</div>
+            <h1>JavaScript <span class="highlight">Array & String</span> Methods</h1>
+            <p class="subtitle">A clean, beginner-friendly exploration of fundamental methods for manipulating text (<code>String</code>) and collections (<code>Array</code>).</p>
         </header>
 
         <!-- Interactive Playground Grid -->
         <main class="grid">
 
-            <!-- Card 1: Function Declaration -->
-            <section class="card" id="card-declaration">
+            <!-- Card 1: String Case & Trim -->
+            <section class="card" id="card-string-case">
                 <div class="card-header">
-                    <span class="card-tag">1. Function Declaration</span>
-                    <h2>Named Function (Hoisted)</h2>
+                    <span class="card-tag">1. String Methods</span>
+                    <h2>Case & Whitespace Cleanup</h2>
                 </div>
-                <p class="card-desc">Declared with the <code>function</code> keyword. Can be invoked anywhere in the scope, even before declaration.</p>
+                <p class="card-desc">Strings are immutable. Methods return a fresh new string without altering the original text.</p>
                 
                 <div class="card-body">
-                    <label for="name-input">Your Name:</label>
+                    <label for="str-transform-input">Input String:</label>
                     <div class="input-group">
-                        <input type="text" id="name-input" placeholder="e.g. Harish" value="Harish">
-                        <button id="run-greet-btn" onclick="handleGreeting()">Run Function</button>
+                        <input type="text" id="str-transform-input" placeholder="Enter text..." value="   Hello JavaScript!   ">
                     </div>
-                    <div class="result-box chips-wrap" id="declaration-result">Ready...</div>
+                    <div class="btn-group">
+                        <button onclick="handleStringTransform('upper')">toUpperCase()</button>
+                        <button class="btn-secondary" onclick="handleStringTransform('lower')">toLowerCase()</button>
+                        <button class="btn-warning" onclick="handleStringTransform('trim')">trim()</button>
+                    </div>
+                    <div class="result-box chips-wrap" id="str-transform-result">Ready...</div>
                 </div>
 
                 <div class="code-preview">
-<pre><code>// Function Declaration
-function greetUser(name) {
-    return `Hello, ${name}! Welcome to Day 23.`;
-}
-
-greetUser("Harish"); // Hoisted & callable</code></pre>
+<pre><code>const text = "   Hello JavaScript!   ";
+text.toUpperCase(); // "   HELLO JAVASCRIPT!   "
+text.toLowerCase(); // "   hello javascript!   "
+text.trim();        // "Hello JavaScript!"</code></pre>
                 </div>
             </section>
 
-            <!-- Card 2: Function Expression -->
-            <section class="card" id="card-expression">
+            <!-- Card 2: String Search & Replace -->
+            <section class="card" id="card-string-search">
                 <div class="card-header">
-                    <span class="card-tag">2. Function Expression</span>
-                    <h2>Anonymous Function Variable</h2>
+                    <span class="card-tag">2. String Methods</span>
+                    <h2>Search & Replace</h2>
                 </div>
-                <p class="card-desc">An anonymous function assigned to a variable. Not hoisted; must be defined before invocation.</p>
+                <p class="card-desc">Check for substrings with <code>includes()</code>, locate positions with <code>indexOf()</code>, and swap words with <code>replace()</code>.</p>
                 
                 <div class="card-body">
-                    <label>Rectangle Dimensions:</label>
+                    <label for="str-search-text">Sample Text:</label>
+                    <div class="input-group">
+                        <input type="text" id="str-search-text" value="JavaScript is awesome">
+                    </div>
+                    
                     <div class="input-row">
                         <div class="input-col">
-                            <label for="rect-width">Width</label>
-                            <input type="number" id="rect-width" placeholder="Width" min="1" max="100" value="6">
-                        </div>
-                        <div class="input-col">
-                            <label for="rect-height">Height</label>
-                            <input type="number" id="rect-height" placeholder="Height" min="1" max="100" value="4">
+                            <label for="str-search-query">Search Query</label>
+                            <input type="text" id="str-search-query" value="Script">
                         </div>
                     </div>
                     <div class="btn-group">
-                        <button onclick="handleAreaCalc()">Calculate Area</button>
+                        <button onclick="handleStringSearch()">Check includes() & indexOf()</button>
                     </div>
-                    <div class="result-box chips-wrap" id="expression-result">Ready...</div>
-                </div>
 
-                <div class="code-preview">
-<pre><code>// Function Expression
-const calculateArea = function(width, height) {
-    return width * height;
-};
-
-calculateArea(6, 4); // Returns 24</code></pre>
-                </div>
-            </section>
-
-            <!-- Card 3: Arrow Function -->
-            <section class="card" id="card-arrow">
-                <div class="card-header">
-                    <span class="card-tag">3. Arrow Function (ES6)</span>
-                    <h2>Modern Concise Syntax</h2>
-                </div>
-                <p class="card-desc">Compact arrow syntax <code>=&gt;</code> ideal for quick computations and cleaner, modern JavaScript code.</p>
-                
-                <div class="card-body">
-                    <label>Discount Calculator:</label>
                     <div class="input-row">
                         <div class="input-col">
-                            <label for="item-price">Original Price ($)</label>
-                            <input type="number" id="item-price" placeholder="Price" min="1" max="10000" value="120">
+                            <label for="str-find">Find</label>
+                            <input type="text" id="str-find" value="awesome">
                         </div>
                         <div class="input-col">
-                            <label for="item-discount">Discount (%)</label>
-                            <input type="number" id="item-discount" placeholder="Discount" min="0" max="100" value="20">
+                            <label for="str-replace-with">Replace With</label>
+                            <input type="text" id="str-replace-with" value="powerful">
                         </div>
                     </div>
                     <div class="btn-group">
-                        <button onclick="handleDiscountCalc()">Apply Discount</button>
+                        <button class="btn-secondary" onclick="handleStringReplace()">replace() Text</button>
                     </div>
-                    <div class="result-box chips-wrap" id="arrow-result">Ready...</div>
+
+                    <div class="result-box chips-wrap" id="str-search-result">Ready...</div>
                 </div>
 
                 <div class="code-preview">
-<pre><code>// ES6 Arrow Function
-const calculateDiscount = (price, discountPercent) => {
-    const discountAmount = (price * discountPercent) / 100;
-    return price - discountAmount;
-};
-
-calculateDiscount(120, 20); // Returns 96.00</code></pre>
+<pre><code>const str = "JavaScript is awesome";
+str.includes("Script"); // true
+str.indexOf("Script");  // 4
+str.replace("awesome", "powerful"); // "JavaScript is powerful"</code></pre>
                 </div>
             </section>
 
-            <!-- Card 4: Default Parameters -->
-            <section class="card" id="card-defaults">
+            <!-- Card 3: Array Mutating Methods -->
+            <section class="card" id="card-array-mutation">
                 <div class="card-header">
-                    <span class="card-tag">4. Default Parameters</span>
-                    <h2>Fallback Argument Handling</h2>
+                    <span class="card-tag">3. Array Methods</span>
+                    <h2>Add & Remove Elements</h2>
                 </div>
-                <p class="card-desc">Assign default fallback values directly in the parameter list to safeguard against missing arguments.</p>
+                <p class="card-desc">Arrays are mutable lists. <code>push</code> & <code>pop</code> work on the end; <code>unshift</code> & <code>shift</code> work on the beginning.</p>
                 
                 <div class="card-body">
-                    <div class="input-row">
-                        <div class="input-col">
-                            <label for="custom-username">Username</label>
-                            <input type="text" id="custom-username" placeholder="e.g. Harish" value="Harish">
-                        </div>
-                        <div class="input-col">
-                            <label for="custom-role">Role</label>
-                            <input type="text" id="custom-role" placeholder="e.g. Developer" value="Frontend Developer">
-                        </div>
-                        <div class="input-col">
-                            <label for="custom-status">Status</label>
-                            <input type="text" id="custom-status" placeholder="e.g. Coding" value="Active">
-                        </div>
+                    <label for="array-item-input">Item to Add:</label>
+                    <div class="input-group">
+                        <input type="text" id="array-item-input" placeholder="e.g. 🍇 Grape" value="🍇 Grape">
                     </div>
                     <div class="btn-group">
-                        <button class="btn-secondary" onclick="handleDefaultParams(false)">Use Default Parameters</button>
-                        <button onclick="handleDefaultParams(true)">Use Custom Arguments</button>
+                        <button onclick="handleArrayPush()">push() [End]</button>
+                        <button class="btn-danger" onclick="handleArrayPop()">pop() [End]</button>
+                        <button class="btn-secondary" onclick="handleArrayUnshift()">unshift() [Start]</button>
+                        <button class="btn-warning" onclick="handleArrayShift()">shift() [Start]</button>
+                        <button class="btn-secondary" onclick="handleArrayReset()">Reset</button>
                     </div>
-                    <div class="result-box chips-wrap" id="defaults-result">Ready...</div>
+                    <div class="result-box chips-wrap" id="array-mutate-result">Ready...</div>
                 </div>
 
                 <div class="code-preview">
-<pre><code>// Default Parameters
-function createProfile(user = "Guest User", role = "Explorer") {
-    return { user, role };
-}
-
-createProfile(); // Uses "Guest User" & "Explorer"</code></pre>
+<pre><code>const fruits = ["🍎 Apple", "🍌 Banana"];
+fruits.push("🍊 Orange");       // Added to end
+fruits.pop();                   // Removed from end
+fruits.unshift("🍓 Strawberry");// Added to start
+fruits.shift();                 // Removed from start</code></pre>
                 </div>
             </section>
 
-            <!-- Card 5: Return vs. Void -->
-            <section class="card" id="card-return" style="grid-column: 1 / -1;">
+            <!-- Card 4: Array Search & Slice -->
+            <section class="card" id="card-array-search">
                 <div class="card-header">
-                    <span class="card-tag">5. Return vs. Void (Console)</span>
-                    <h2>Output Values & Reusability</h2>
+                    <span class="card-tag">4. Array Methods</span>
+                    <h2>Search, Slice & Reverse</h2>
                 </div>
-                <p class="card-desc">A <code>return</code> statement passes computed data back to the caller for storage or reuse. Functions without <code>return</code> evaluate to <code>undefined</code>.</p>
+                <p class="card-desc">Query items, take shallow copies using <code>slice()</code>, or flip element order with <code>reverse()</code>.</p>
                 
                 <div class="card-body">
-                    <label>Test Function Execution:</label>
-                    <div class="btn-group">
-                        <button class="btn-secondary" onclick="handleReturnDemo(true)">Run addWithReturn(15, 25)</button>
-                        <button class="btn-warning" onclick="handleReturnDemo(false)">Run addWithoutReturn(15, 25)</button>
+                    <label for="array-search-input">Search in Array:</label>
+                    <div class="input-group">
+                        <input type="text" id="array-search-input" placeholder="e.g. Apple" value="Apple">
+                        <button onclick="handleArrayCheck()">includes()</button>
                     </div>
-                    <div class="result-box chips-wrap" id="return-result">Click a button above...</div>
+                    <div class="btn-group">
+                        <button class="btn-secondary" onclick="handleArraySlice()">slice(0, 2)</button>
+                        <button class="btn-warning" onclick="handleArrayReverse()">reverse() Array</button>
+                    </div>
+                    <div class="result-box chips-wrap" id="array-util-result">Ready...</div>
                 </div>
 
                 <div class="code-preview">
-<pre><code>// With Return (Usable output)
-function addWithReturn(a, b) {
-    return a + b; // Storable in variable!
-}
+<pre><code>const list = ["🍎 Apple", "🍌 Banana", "🍊 Orange"];
+list.includes("Apple");          // true
+const copy = list.slice(0, 2);   // ["🍎 Apple", "🍌 Banana"]
+list.reverse();                  // Reverses original list</code></pre>
+                </div>
+            </section>
 
-// Without Return (Void / Console only)
-function addWithoutReturn(a, b) {
-    console.log(a + b); // Returns undefined
-}</code></pre>
+            <!-- Card 5: The Bridge: split() and join() -->
+            <section class="card" id="card-bridge" style="grid-column: 1 / -1;">
+                <div class="card-header">
+                    <span class="card-tag">5. The Bridge</span>
+                    <h2>Converting Strings ⇄ Arrays (split & join)</h2>
+                </div>
+                <p class="card-desc">Use <code>split(delimiter)</code> to break a string into an array, and <code>join(delimiter)</code> to glue an array into a string.</p>
+                
+                <div class="card-body">
+                    <label for="bridge-input">Comma-Separated Text / Word:</label>
+                    <div class="input-group">
+                        <input type="text" id="bridge-input" value="HTML,CSS,JavaScript,React">
+                    </div>
+                    <div class="btn-group">
+                        <button onclick="handleBridgeSplit()">split(",") ➔ Array</button>
+                        <button class="btn-secondary" onclick="handleBridgeJoin()">join(" ➔ ") ➔ String</button>
+                        <button class="btn-warning" onclick="handleBridgeReverseWord()">Reverse Word (split + reverse + join)</button>
+                    </div>
+                    <div class="result-box chips-wrap" id="bridge-result">Click an option above...</div>
+                </div>
+
+                <div class="code-preview">
+<pre><code>// 1. String to Array:
+const skills = "HTML,CSS,JavaScript".split(","); // ["HTML", "CSS", "JavaScript"]
+
+// 2. Array to String:
+const combined = skills.join(" - "); // "HTML - CSS - JavaScript"
+
+// 3. String Reversal Pattern:
+const reversed = "hello".split("").reverse().join(""); // "olleh"</code></pre>
                 </div>
             </section>
 
@@ -202,8 +204,8 @@ function addWithoutReturn(a, b) {
 
         <!-- Footer -->
         <footer class="footer">
-            <p>Day 23 of 100 Days Frontend • Built by <a href="https://github.com/harish-0987" target="_blank" rel="noopener">Harish</a></p>
-            <p><a href="https://github.com/harish-0987/DAY-23-OF-FRONTEND" target="_blank" rel="noopener" class="repo-link">View on GitHub ↗</a></p>
+            <p>Day 24 of 100 Days Frontend • Built by <a href="https://github.com/harish-0987" target="_blank" rel="noopener">Harish</a></p>
+            <p><a href="https://github.com/harish-0987/DAY-24-OF-FRONTEND" target="_blank" rel="noopener" class="repo-link">View on GitHub ↗</a></p>
         </footer>
     </div>
 
