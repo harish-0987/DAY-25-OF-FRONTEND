@@ -1,167 +1,161 @@
-# ⚡ Day 24 of Frontend: Basic Level Array and String Methods in JavaScript
+# ⚡ Day 25 of Frontend: Basic Level DOM Manipulation in JavaScript
 
-Welcome to **Day 24 of the 100 Days Frontend Challenge**! Today's project focuses on understanding and practicing the most essential **String Methods** and **Array Methods** in JavaScript with simple, beginner-friendly code examples.
+Welcome to **Day 25 of the 100 Days Frontend Challenge**! Today's project focuses on understanding and practicing fundamental **DOM (Document Object Model) Manipulation** in JavaScript with clean, beginner-friendly examples.
 
-🔗 **Repository:** [harish-0987/DAY-24-OF-FRONTEND](https://github.com/harish-0987/DAY-24-OF-FRONTEND)
+🔗 **Repository:** [harish-0987/DAY-25-OF-FRONTEND](https://github.com/harish-0987/DAY-25-OF-FRONTEND)
 
 ---
 
-## 📌 Part 1: Basic String Methods
+## 📌 What is the DOM?
 
-In JavaScript, **Strings** represent sequences of text. Strings are **immutable**, meaning string methods do not change the original string—they always return a brand new string or a result.
+The **DOM (Document Object Model)** is a programming interface provided by web browsers. When an HTML document loads, the browser converts the HTML tags into a **tree of objects** (nodes) that JavaScript can access and manipulate.
 
-### Essential Basic String Methods
+With JavaScript and the DOM, you can:
+- **Select** any HTML element on the page.
+- **Change** element content (`textContent`, `innerHTML`).
+- **Modify** element styles and CSS classes (`style`, `classList`).
+- **Create & Remove** HTML elements dynamically (`createElement`, `appendChild`, `remove`).
+- **Listen** to user interactions via events (`addEventListener`).
 
-#### 1. `toUpperCase()` & `toLowerCase()`
-Changes the case of a string.
+---
+
+## 💻 Core Basic Level DOM Concepts & Code Snippets
+
+### 1. Selecting Elements
+
+JavaScript provides several ways to grab elements from the page:
+
 ```javascript
-const text = "Frontend Development";
+// 1. By ID (most direct and common)
+const heading = document.getElementById("main-heading");
 
-console.log(text.toUpperCase()); // "FRONTEND DEVELOPMENT"
-console.log(text.toLowerCase()); // "frontend development"
-```
+// 2. By CSS Selector (selects the FIRST matching element)
+const button = document.querySelector(".action-btn");
 
-#### 2. `trim()`
-Removes whitespace from both ends of a string (great for sanitizing user inputs).
-```javascript
-const messyInput = "   Hello JavaScript!   ";
-console.log(messyInput.trim()); // "Hello JavaScript!"
-```
-
-#### 3. `includes()`
-Checks if a string contains a specific substring (case-sensitive) and returns `true` or `false`.
-```javascript
-const sentence = "Learning JavaScript is fun";
-console.log(sentence.includes("JavaScript")); // true
-console.log(sentence.includes("Python"));     // false
-```
-
-#### 4. `slice(start, end)`
-Extracts a section of a string and returns it as a new string.
-```javascript
-const phrase = "CodeWithHarish";
-console.log(phrase.slice(0, 4)); // "Code"
-console.log(phrase.slice(4));    // "WithHarish"
-```
-
-#### 5. `replace(search, replacement)`
-Replaces the first occurrence of a substring with another string.
-```javascript
-const message = "I like apples";
-console.log(message.replace("apples", "oranges")); // "I like oranges"
-```
-
-#### 6. `split(separator)`
-Splits a string into an array of substrings based on a delimiter.
-```javascript
-const skills = "HTML,CSS,JavaScript";
-console.log(skills.split(",")); // ["HTML", "CSS", "JavaScript"]
+// 3. By CSS Selector (selects ALL matching elements as a NodeList)
+const allCards = document.querySelectorAll(".card");
 ```
 
 ---
 
-## 📌 Part 2: Basic Array Methods
+### 2. Changing Content: `textContent` vs `innerHTML`
 
-An **Array** in JavaScript is an ordered list of elements. Unlike strings, arrays are **mutable**, so some methods modify the original array in-place, while others return a new array.
-
-### Essential Basic Array Methods
-
-#### 1. Adding & Removing Elements
-- **`push(item)`**: Adds an item to the **end** of the array.
-- **`pop()`**: Removes the **last** item from the array and returns it.
-- **`unshift(item)`**: Adds an item to the **beginning** of the array.
-- **`shift()`**: Removes the **first** item from the array and returns it.
+- **`textContent`**: Sets or retrieves the plain text content inside an element (safe from XSS).
+- **`innerHTML`**: Parses and renders HTML tags inside an element.
 
 ```javascript
-const fruits = ["🍎 Apple", "🍌 Banana"];
+const box = document.getElementById("message-box");
 
-// Add to end
-fruits.push("🍊 Orange");       // ["🍎 Apple", "🍌 Banana", "🍊 Orange"]
+// Plain text change
+box.textContent = "Welcome to Day 25 of Frontend!";
 
-// Remove from end
-const lastItem = fruits.pop();   // "🍊 Orange"
-
-// Add to beginning
-fruits.unshift("🍓 Strawberry"); // ["🍓 Strawberry", "🍎 Apple", "🍌 Banana"]
-
-// Remove from beginning
-const firstItem = fruits.shift(); // "🍓 Strawberry"
-```
-
-#### 2. `includes()` & `indexOf()`
-- **`includes(value)`**: Returns `true` if the value is present in the array.
-- **`indexOf(value)`**: Returns the index position of the value, or `-1` if not found.
-
-```javascript
-const colors = ["red", "green", "blue"];
-
-console.log(colors.includes("green")); // true
-console.log(colors.indexOf("blue"));   // 2
-console.log(colors.indexOf("yellow")); // -1 (not found)
-```
-
-#### 3. `slice(start, end)`
-Returns a shallow copy of a portion of an array without modifying the original array.
-```javascript
-const numbers = [10, 20, 30, 40, 50];
-const subArray = numbers.slice(1, 4); // [20, 30, 40]
-```
-
-#### 4. `reverse()`
-Reverses the elements of an array in-place.
-```javascript
-const letters = ["A", "B", "C", "D"];
-letters.reverse(); // ["D", "C", "B", "A"]
-```
-
-#### 5. `join(separator)`
-Combines all elements of an array into a single string separated by the specified delimiter.
-```javascript
-const techStack = ["React", "Node", "MongoDB"];
-console.log(techStack.join(" - ")); // "React - Node - MongoDB"
+// Rich HTML change
+box.innerHTML = "Welcome to <strong>Day 25</strong> with <em>styled HTML</em>!";
 ```
 
 ---
 
-## 🔄 The Bridge: `split()` and `join()`
+### 3. Modifying Styles and Classes
 
-One of the most practical basic patterns in JavaScript is converting a string to an array with `split()`, manipulating it, and joining it back into a string with `join()`:
-
+#### Changing Inline Styles:
 ```javascript
-// Reversing a string using basic methods
-const word = "hello";
-const reversedWord = word.split("").reverse().join("");
-console.log(reversedWord); // "olleh"
+const box = document.getElementById("demo-box");
+
+box.style.backgroundColor = "#4f46e5";
+box.style.color = "#ffffff";
+box.style.padding = "16px";
+```
+
+#### Using `classList` (Recommended Best Practice):
+Instead of hardcoding inline styles, toggle or add CSS classes:
+```javascript
+const card = document.getElementById("my-card");
+
+// Add a class
+card.classList.add("active");
+
+// Remove a class
+card.classList.remove("hidden");
+
+// Toggle a class (adds if missing, removes if present)
+card.classList.toggle("highlight");
+
+// Check if class exists
+const hasClass = card.classList.contains("active"); // true / false
 ```
 
 ---
 
-## 📊 Summary Quick Reference
+### 4. Creating and Appending Elements Dynamically
 
-| Method | Type | Modifies Original? | Return Value | Example |
-| :--- | :--- | :--- | :--- | :--- |
-| `toUpperCase()` | String | ❌ No | String (uppercase) | `"hi".toUpperCase()` -> `"HI"` |
-| `trim()` | String | ❌ No | String (trimmed) | `" a ".trim()` -> `"a"` |
-| `includes()` | String & Array | ❌ No | Boolean (`true`/`false`) | `[1, 2].includes(2)` -> `true` |
-| `slice()` | String & Array | ❌ No | Substring / Sub-array | `"hello".slice(0, 2)` -> `"he"` |
-| `replace()` | String | ❌ No | New string with replacement | `"cat".replace("c", "b")` -> `"bat"` |
-| `push()` | Array | ✅ Yes | New length of array | `arr.push("item")` |
-| `pop()` | Array | ✅ Yes | Removed item | `arr.pop()` |
-| `unshift()` | Array | ✅ Yes | New length of array | `arr.unshift("item")` |
-| `shift()` | Array | ✅ Yes | Removed item | `arr.shift()` |
-| `reverse()` | Array | ✅ Yes | Mutated reversed array | `arr.reverse()` |
-| `split()` | String -> Array | ❌ No | Array of strings | `"a,b".split(",")` -> `["a", "b"]` |
-| `join()` | Array -> String | ❌ No | Combined string | `["a", "b"].join("-")` -> `"a-b"` |
+You can generate brand new elements and insert them anywhere in the DOM tree:
+
+```javascript
+// 1. Create a new element
+const newChip = document.createElement("span");
+
+// 2. Add content and classes
+newChip.className = "step-chip";
+newChip.textContent = "New Dynamic Element 🎉";
+
+// 3. Append to a parent container
+const container = document.getElementById("chip-container");
+container.appendChild(newChip);
+
+// 4. Remove an element
+newChip.remove();
+```
+
+---
+
+### 5. Handling Events with `addEventListener`
+
+Events allow your web page to react to user interactions like mouse clicks, keyboard input, and form submissions:
+
+```javascript
+const button = document.getElementById("btn-click");
+const counterText = document.getElementById("counter-text");
+let count = 0;
+
+// Click event listener
+button.addEventListener("click", () => {
+    count++;
+    counterText.textContent = `Total Clicks: ${count}`;
+});
+
+// Real-time input event listener
+const textInput = document.getElementById("user-input");
+textInput.addEventListener("input", (event) => {
+    console.log("Current Value:", event.target.value);
+});
+```
+
+---
+
+## 📊 Summary Quick Reference Table
+
+| DOM Method / Property | What It Does | Example |
+| :--- | :--- | :--- |
+| `document.getElementById("id")` | Grabs element by its ID | `const el = document.getElementById("title");` |
+| `document.querySelector(".class")` | Grabs first element matching CSS selector | `const btn = document.querySelector(".btn");` |
+| `element.textContent` | Sets or gets plain text | `el.textContent = "Hello";` |
+| `element.innerHTML` | Sets or gets HTML content | `el.innerHTML = "<b>Bold</b>";` |
+| `element.style.property` | Changes inline CSS style | `el.style.color = "red";` |
+| `element.classList.toggle("cls")` | Toggles a CSS class | `el.classList.toggle("dark");` |
+| `document.createElement("tag")` | Creates a new HTML element | `const li = document.createElement("li");` |
+| `parent.appendChild(child)` | Appends child element to parent | `list.appendChild(li);` |
+| `element.remove()` | Removes element from DOM | `li.remove();` |
+| `element.addEventListener(type, fn)` | Attaches an event handler | `btn.addEventListener("click", run);` |
 
 ---
 
 ## 🚀 Interactive Features Included in This Project
 
-- **String Transformation Studio:** Live demonstration of `toUpperCase()`, `toLowerCase()`, and `trim()` on user input.
-- **String Search & Replace:** Live testing of `includes()`, `slice()`, and `replace()`.
-- **Interactive Array Playground:** Visual list where you can live `push()`, `pop()`, `unshift()`, and `shift()` items.
-- **Array Utility Tools:** Check `includes()`, find `indexOf()`, `slice()`, and `reverse()` in real-time.
-- **String ⇄ Array Converter:** Live bidirectional conversion demo using `split()` and `join()`.
+- **Content Switcher:** Live toggle between `textContent` and `innerHTML` formatting.
+- **Style & Class Controller:** Live manipulation of background colors, text colors, and `classList.toggle()`.
+- **Dynamic Element Generator:** Add, remove, and clear elements in real-time with `createElement` and `appendChild`.
+- **Attribute Inspector:** Dynamically inspect and switch element attributes (`placeholder`, `type`, `title`).
+- **Live Event Playground:** Real-time click counter and live typing mirror using `addEventListener`.
 
 ---
 
@@ -169,13 +163,13 @@ console.log(reversedWord); // "olleh"
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/harish-0987/DAY-24-OF-FRONTEND.git
+   git clone https://github.com/harish-0987/DAY-25-OF-FRONTEND.git
    ```
 2. Open the project folder:
    ```bash
-   cd DAY-24-OF-FRONTEND
+   cd DAY-25-OF-FRONTEND
    ```
-3. Open `index.html` in any modern web browser.
+3. Open `index.html` in any web browser.
 
 ---
 

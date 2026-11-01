@@ -1,111 +1,127 @@
 // ======================================================
-// Day 24: Basic Level Array and String Methods in JavaScript
+// Day 25: Basic Level DOM Manipulation in JavaScript
 // 100 Days Frontend Challenge by Harish (@harish-0987)
 // ======================================================
 
 // ------------------------------------------------------
-// 1. BASIC STRING METHODS
+// 1. SELECTING & MODIFYING CONTENT (textContent vs innerHTML)
 // ------------------------------------------------------
 
-// toUpperCase & toLowerCase: Case manipulation
-function changeCase(text, mode = "upper") {
-    if (mode === "upper") {
-        return text.toUpperCase();
+// textContent: Safely sets plain text (does not parse HTML)
+function setElementText(elementId, text) {
+    const el = document.getElementById(elementId);
+    if (el) {
+        el.textContent = text;
     }
-    return text.toLowerCase();
 }
 
-// trim: Remove leading and trailing whitespace
-function cleanWhitespace(text) {
-    return text.trim();
-}
-
-// includes: Check if a substring exists (returns boolean)
-function checkStringContains(text, searchTerm) {
-    return text.includes(searchTerm);
-}
-
-// slice: Extract a portion of text
-function extractSubstring(text, start, end) {
-    const s = parseInt(start, 10) || 0;
-    const e = end !== "" ? parseInt(end, 10) : undefined;
-    return text.slice(s, e);
-}
-
-// replace: Replace first occurrence of target with replacement
-function replaceText(text, target, replacement) {
-    return text.replace(target, replacement);
+// innerHTML: Parses and renders HTML markup
+function setElementHTML(elementId, htmlString) {
+    const el = document.getElementById(elementId);
+    if (el) {
+        el.innerHTML = htmlString;
+    }
 }
 
 // ------------------------------------------------------
-// 2. BASIC ARRAY METHODS
+// 2. MODIFYING STYLES & CSS CLASSES (style & classList)
 // ------------------------------------------------------
 
-// Active array state for live demonstration
-let activeArray = ["🍎 Apple", "🍌 Banana", "🍊 Orange"];
-
-// push: Add item to the end
-function addItemToEnd(arr, item) {
-    arr.push(item);
-    return arr;
+// Inline style modification
+function setBoxColor(elementId, color, bgColor) {
+    const el = document.getElementById(elementId);
+    if (el) {
+        el.style.color = color;
+        el.style.backgroundColor = bgColor;
+        el.style.borderColor = color;
+    }
 }
 
-// pop: Remove item from the end
-function removeItemFromEnd(arr) {
-    return arr.pop(); // returns removed element
-}
-
-// unshift: Add item to the beginning
-function addItemToBeginning(arr, item) {
-    arr.unshift(item);
-    return arr;
-}
-
-// shift: Remove item from the beginning
-function removeItemFromBeginning(arr) {
-    return arr.shift(); // returns removed element
-}
-
-// reverse: Reverse items in-place
-function reverseArray(arr) {
-    return arr.reverse();
-}
-
-// slice: Extract a subarray without mutating original
-function sliceArray(arr, start, end) {
-    return arr.slice(start, end);
-}
-
-// includes & indexOf: Search in array
-function searchInArray(arr, searchTerm) {
-    const isPresent = arr.some(item => item.toLowerCase().includes(searchTerm.toLowerCase()));
-    return isPresent;
+// classList manipulation (add, remove, toggle, contains)
+function toggleBoxHighlight(elementId, className = "highlight-active") {
+    const el = document.getElementById(elementId);
+    if (el) {
+        el.classList.toggle(className);
+        return el.classList.contains(className);
+    }
+    return false;
 }
 
 // ------------------------------------------------------
-// 3. THE BRIDGE: split() and join()
+// 3. CREATING & REMOVING ELEMENTS (createElement, appendChild, remove)
 // ------------------------------------------------------
 
-// split: Convert string to array
-function stringToArray(str, separator = ",") {
-    return str.split(separator);
+let elementCounter = 0;
+
+// createElement & appendChild: Creates a new element and adds to container
+function createAndAppendChip(containerId, labelText) {
+    const container = document.getElementById(containerId);
+    if (!container) return null;
+
+    elementCounter++;
+    const newChip = document.createElement("span");
+    newChip.className = "dynamic-item";
+    newChip.textContent = `#${elementCounter} ${labelText}`;
+    newChip.setAttribute("data-id", elementCounter);
+
+    // Optional: Clicking on the chip directly removes it
+    newChip.addEventListener("click", () => {
+        newChip.remove();
+        updateElementCountDisplay();
+    });
+
+    container.appendChild(newChip);
+    return newChip;
 }
 
-// join: Convert array to string
-function arrayToString(arr, separator = " - ") {
-    return arr.join(separator);
+// removeChild / remove: Removes the last child element
+function removeLastChildElement(containerId) {
+    const container = document.getElementById(containerId);
+    if (container && container.lastElementChild) {
+        const removedText = container.lastElementChild.textContent;
+        container.lastElementChild.remove();
+        return removedText;
+    }
+    return null;
 }
 
-// Reverse a string using split -> reverse -> join
-function reverseString(str) {
-    return str.split("").reverse().join("");
+// Clear all dynamically created elements
+function clearContainerChildren(containerId) {
+    const container = document.getElementById(containerId);
+    if (container) {
+        container.innerHTML = "";
+        elementCounter = 0;
+    }
+}
+
+// ------------------------------------------------------
+// 4. ATTRIBUTE MANIPULATION (setAttribute, getAttribute)
+// ------------------------------------------------------
+
+function toggleInputAttributeType(inputId) {
+    const input = document.getElementById(inputId);
+    if (!input) return "text";
+
+    const currentType = input.getAttribute("type");
+    const newType = currentType === "password" ? "text" : "password";
+    input.setAttribute("type", newType);
+    return newType;
+}
+
+function changePlaceholderAttribute(inputId, newPlaceholder) {
+    const input = document.getElementById(inputId);
+    if (input) {
+        input.setAttribute("placeholder", newPlaceholder);
+        return input.getAttribute("placeholder");
+    }
+    return null;
 }
 
 // ======================================================
 // DOM UI Handlers for Interactive Playground
 // ======================================================
 
-// Helper: Render items or status chips
+// Helper: Render status chips in result box
 function renderChips(containerId, items, isSuccess = true) {
     const container = document.getElementById(containerId);
     if (!container) return;
@@ -119,11 +135,6 @@ function renderChips(containerId, items, isSuccess = true) {
     }
 
     if (Array.isArray(items)) {
-        if (items.length === 0) {
-            container.textContent = "[Empty Array]";
-            return;
-        }
-
         items.forEach((text, index) => {
             const chip = document.createElement("span");
             chip.className = "step-chip";
@@ -134,177 +145,167 @@ function renderChips(containerId, items, isSuccess = true) {
     }
 }
 
-// --- Handler 1: String Case & Trim ---
-function handleStringTransform(action) {
-    const input = document.getElementById("str-transform-input");
-    const rawVal = input ? input.value : "";
+// --- Handler 1: Content Update ---
+function handleTextContentChange() {
+    const customText = document.getElementById("content-input").value || "JavaScript DOM is interactive!";
+    setElementText("content-target", customText);
 
-    let resultText = "";
-    let methodUsed = "";
+    renderChips("content-result", [
+        `Used: .textContent = "${customText}"`,
+        `Safety: Plain text (Safe from XSS) 🔒`
+    ], true);
+}
 
-    if (action === "upper") {
-        resultText = changeCase(rawVal, "upper");
-        methodUsed = ".toUpperCase()";
-    } else if (action === "lower") {
-        resultText = changeCase(rawVal, "lower");
-        methodUsed = ".toLowerCase()";
-    } else if (action === "trim") {
-        resultText = cleanWhitespace(rawVal);
-        methodUsed = ".trim()";
+function handleInnerHTMLChange() {
+    const customText = document.getElementById("content-input").value || "JavaScript DOM";
+    const formattedHTML = `✨ <strong>${customText}</strong> (Rendered with <em>HTML tags</em>!)`;
+    setElementHTML("content-target", formattedHTML);
+
+    renderChips("content-result", [
+        `Used: .innerHTML = "<strong>...</strong>"`,
+        `Tags Rendered: <strong> and <em> 🎨`
+    ], true);
+}
+
+// --- Handler 2: Style & ClassList ---
+function handleStyleColor(color, bgColor) {
+    setBoxColor("style-target", color, bgColor);
+    renderChips("style-result", [
+        `style.color = "${color}"`,
+        `style.backgroundColor = "${bgColor}"`
+    ], true);
+}
+
+function handleClassToggle() {
+    const isHighlighted = toggleBoxHighlight("style-target", "highlight-active");
+    renderChips("style-result", [
+        `classList.toggle("highlight-active")`,
+        `Active Status: ${isHighlighted ? "true (Class Applied ✨)" : "false (Class Removed ❌)"}`
+    ], true);
+}
+
+function handleStyleReset() {
+    const box = document.getElementById("style-target");
+    if (box) {
+        box.removeAttribute("style");
+        box.className = "target-box";
+    }
+    renderChips("style-result", "Styles & classes reset to defaults.", true);
+}
+
+// --- Handler 3: Dynamic Elements ---
+function handleAddElement() {
+    const input = document.getElementById("element-label-input");
+    const label = input && input.value.trim() ? input.value.trim() : "DOM Task";
+    
+    const chip = createAndAppendChip("dynamic-container", label);
+    if (chip) {
+        renderChips("dynamic-result", [
+            `document.createElement("span")`,
+            `container.appendChild()`,
+            `Added: "${chip.textContent}" (Click chip to delete)`
+        ], true);
+    }
+}
+
+function handleRemoveElement() {
+    const removed = removeLastChildElement("dynamic-container");
+    if (removed) {
+        renderChips("dynamic-result", [
+            `lastElementChild.remove()`,
+            `Removed: "${removed}"`
+        ], true);
+    } else {
+        renderChips("dynamic-result", "No elements left to remove!", false);
+    }
+}
+
+function handleClearElements() {
+    clearContainerChildren("dynamic-container");
+    renderChips("dynamic-result", "Cleared all elements using innerHTML = ''", true);
+}
+
+function updateElementCountDisplay() {
+    const container = document.getElementById("dynamic-container");
+    const count = container ? container.children.length : 0;
+    renderChips("dynamic-result", `Current elements count: ${count}`, true);
+}
+
+// --- Handler 4: Attributes ---
+function handleToggleInputType() {
+    const newType = toggleInputAttributeType("attr-input-demo");
+    const btn = document.getElementById("btn-toggle-type");
+    if (btn) {
+        btn.textContent = newType === "password" ? "Show as Text" : "Hide as Password";
+    }
+    renderChips("attr-result", [
+        `setAttribute("type", "${newType}")`,
+        `Current type: ${newType}`
+    ], true);
+}
+
+function handlePlaceholderChange() {
+    const placeholders = [
+        "Enter your secret code...",
+        "Type something cool here...",
+        "JavaScript is amazing!",
+        "100 Days Frontend Challenge"
+    ];
+    const randomChoice = placeholders[Math.floor(Math.random() * placeholders.length)];
+    changePlaceholderAttribute("attr-input-demo", randomChoice);
+
+    renderChips("attr-result", [
+        `setAttribute("placeholder", "${randomChoice}")`,
+        `Updated successfully! 🏷️`
+    ], true);
+}
+
+// --- Handler 5: Event Listeners (Click & Real-time Input) ---
+let clickCounter = 0;
+
+function setupEventListeners() {
+    // 1. Click Listener
+    const clickBtn = document.getElementById("btn-click-tracker");
+    if (clickBtn) {
+        clickBtn.addEventListener("click", () => {
+            clickCounter++;
+            const counterBadge = document.getElementById("click-counter-display");
+            if (counterBadge) {
+                counterBadge.textContent = `${clickCounter} clicks`;
+            }
+            renderChips("events-result", [
+                `Event: "click"`,
+                `Total clicks: ${clickCounter} 🖱️`
+            ], true);
+        });
     }
 
-    renderChips("str-transform-result", [
-        `Result: "${resultText}"`,
-        `Method: ${methodUsed}`,
-        `Length: ${resultText.length} chars`
-    ], true);
-}
+    // 2. Real-time Input Listener
+    const liveInput = document.getElementById("live-mirror-input");
+    const liveOutput = document.getElementById("live-mirror-output");
 
-// --- Handler 2: String Search & Slice & Replace ---
-function handleStringSearch() {
-    const textInput = document.getElementById("str-search-text");
-    const queryInput = document.getElementById("str-search-query");
-
-    const text = textInput ? textInput.value : "";
-    const query = queryInput ? queryInput.value : "";
-
-    const hasMatch = checkStringContains(text, query);
-    const index = text.indexOf(query);
-
-    renderChips("str-search-result", [
-        `includes("${query}"): ${hasMatch ? "true ✅" : "false ❌"}`,
-        `indexOf("${query}"): ${index}`,
-        `Original: "${text}"`
-    ], true);
-}
-
-function handleStringReplace() {
-    const textInput = document.getElementById("str-search-text");
-    const findInput = document.getElementById("str-find");
-    const replaceWithInput = document.getElementById("str-replace-with");
-
-    const text = textInput ? textInput.value : "";
-    const findVal = findInput ? findInput.value : "";
-    const repVal = replaceWithInput ? replaceWithInput.value : "";
-
-    const newStr = replaceText(text, findVal, repVal);
-
-    renderChips("str-search-result", [
-        `Replaced: "${newStr}"`,
-        `Method: .replace("${findVal}", "${repVal}")`
-    ], true);
-}
-
-// --- Handler 3: Array Mutation (Push, Pop, Shift, Unshift) ---
-function renderActiveArray(actionMsg = "") {
-    const chips = activeArray.map((item, idx) => `[${idx}] ${item}`);
-    if (actionMsg) {
-        chips.unshift(`⚡ ${actionMsg}`);
+    if (liveInput && liveOutput) {
+        liveInput.addEventListener("input", (e) => {
+            const val = e.target.value;
+            liveOutput.textContent = val.length > 0 ? val : "(Waiting for input...)";
+            renderChips("events-result", [
+                `Event: "input"`,
+                `Characters: ${val.length}`,
+                `Live Value: "${val}"`
+            ], true);
+        });
     }
-    renderChips("array-mutate-result", chips, true);
-}
-
-function handleArrayPush() {
-    const input = document.getElementById("array-item-input");
-    const val = input && input.value.trim() ? input.value.trim() : "🍇 Grape";
-    addItemToEnd(activeArray, val);
-    renderActiveArray(`.push("${val}") added to end`);
-}
-
-function handleArrayPop() {
-    if (activeArray.length === 0) {
-        renderChips("array-mutate-result", "Array is already empty!", false);
-        return;
-    }
-    const removed = removeItemFromEnd(activeArray);
-    renderActiveArray(`.pop() removed "${removed}" from end`);
-}
-
-function handleArrayUnshift() {
-    const input = document.getElementById("array-item-input");
-    const val = input && input.value.trim() ? input.value.trim() : "🍓 Strawberry";
-    addItemToBeginning(activeArray, val);
-    renderActiveArray(`.unshift("${val}") added to start`);
-}
-
-function handleArrayShift() {
-    if (activeArray.length === 0) {
-        renderChips("array-mutate-result", "Array is already empty!", false);
-        return;
-    }
-    const removed = removeItemFromBeginning(activeArray);
-    renderActiveArray(`.shift() removed "${removed}" from start`);
-}
-
-function handleArrayReset() {
-    activeArray = ["🍎 Apple", "🍌 Banana", "🍊 Orange"];
-    renderActiveArray("Array reset to default");
-}
-
-// --- Handler 4: Array Search, Reverse & Slice ---
-function handleArrayReverse() {
-    reverseArray(activeArray);
-    renderActiveArray(".reverse() reversed items in-place");
-}
-
-function handleArraySlice() {
-    const sliced = sliceArray(activeArray, 0, 2);
-    const chips = sliced.map((item, idx) => `[${idx}] ${item}`);
-    chips.unshift(".slice(0, 2) (shallow copy, original unchanged):");
-    renderChips("array-util-result", chips, true);
-}
-
-function handleArrayCheck() {
-    const queryInput = document.getElementById("array-search-input");
-    const query = queryInput ? queryInput.value.trim() : "Apple";
-
-    const isPresent = searchInArray(activeArray, query);
-
-    renderChips("array-util-result", [
-        `Search: "${query}"`,
-        `Found in array: ${isPresent ? "true ✅" : "false ❌"}`,
-        `Array size: ${activeArray.length}`
-    ], true);
-}
-
-// --- Handler 5: Bridge (split & join & reverse string) ---
-function handleBridgeSplit() {
-    const input = document.getElementById("bridge-input");
-    const text = input ? input.value : "HTML,CSS,JavaScript,React";
-    const arr = stringToArray(text, ",");
-
-    const chips = arr.map((item, i) => `[${i}] ${item.trim()}`);
-    chips.unshift('.split(",") created Array:');
-    renderChips("bridge-result", chips, true);
-}
-
-function handleBridgeJoin() {
-    const joined = arrayToString(activeArray, " ➔ ");
-    renderChips("bridge-result", [
-        `Active Array joined with " ➔ ":`,
-        `"${joined}"`
-    ], true);
-}
-
-function handleBridgeReverseWord() {
-    const input = document.getElementById("bridge-input");
-    const text = input ? input.value : "Frontend";
-    const reversed = reverseString(text);
-
-    renderChips("bridge-result", [
-        `Original: "${text}"`,
-        `Reversed: "${reversed}"`,
-        `Pattern: .split("").reverse().join("")`
-    ], true);
 }
 
 // ------------------------------------------------------
-// Initial triggers on page load
+// Initial triggers on DOM content loaded
 // ------------------------------------------------------
 window.addEventListener("DOMContentLoaded", () => {
-    handleStringTransform("upper");
-    handleStringSearch();
-    renderActiveArray("Initial Array State");
-    handleArraySlice();
-    handleBridgeSplit();
+    // Pre-populate initial dynamic chips
+    createAndAppendChip("dynamic-container", "Explore DOM");
+    createAndAppendChip("dynamic-container", "Modify Nodes");
+
+    setupEventListeners();
+    handleTextContentChange();
+    handleStyleColor("#38bdf8", "rgba(56, 189, 248, 0.12)");
 });

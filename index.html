@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Day 24 of Frontend: Basic Level Array and String Methods in JavaScript (toUpperCase, trim, includes, slice, push, pop, shift, unshift, split, join).">
+    <meta name="description" content="Day 25 of Frontend: Basic Level DOM Manipulation in JavaScript (Selecting Elements, textContent, innerHTML, styles, classList, createElement, appendChild, and addEventListener).">
     <meta name="author" content="Harish (harish-0987)">
-    <title>Day 24 - Basic Array & String Methods | Harish</title>
+    <title>Day 25 - Basic DOM Manipulation | Harish</title>
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -20,183 +20,194 @@
     <div class="container">
         <!-- Header -->
         <header class="header">
-            <div class="badge">Day 24 of 100 Days Frontend</div>
-            <h1>JavaScript <span class="highlight">Array & String</span> Methods</h1>
-            <p class="subtitle">A clean, beginner-friendly exploration of fundamental methods for manipulating text (<code>String</code>) and collections (<code>Array</code>).</p>
+            <div class="badge">Day 25 of 100 Days Frontend</div>
+            <h1>JavaScript <span class="highlight">DOM Manipulation</span></h1>
+            <p class="subtitle">A clean, beginner-friendly introduction to interacting with web pages dynamically using <code>document</code> methods, content updates, styles, dynamic elements, and event listeners.</p>
         </header>
 
         <!-- Interactive Playground Grid -->
         <main class="grid">
 
-            <!-- Card 1: String Case & Trim -->
-            <section class="card" id="card-string-case">
+            <!-- Card 1: Content Manipulation -->
+            <section class="card" id="card-content">
                 <div class="card-header">
-                    <span class="card-tag">1. String Methods</span>
-                    <h2>Case & Whitespace Cleanup</h2>
+                    <span class="card-tag">1. Content Manipulation</span>
+                    <h2>textContent vs innerHTML</h2>
                 </div>
-                <p class="card-desc">Strings are immutable. Methods return a fresh new string without altering the original text.</p>
+                <p class="card-desc"><code>textContent</code> handles raw text safely; <code>innerHTML</code> parses and renders HTML tags inside elements.</p>
                 
                 <div class="card-body">
-                    <label for="str-transform-input">Input String:</label>
+                    <label>Target Element Preview:</label>
+                    <div class="target-box" id="content-target">Initial Target Text</div>
+
+                    <label for="content-input">New Message:</label>
                     <div class="input-group">
-                        <input type="text" id="str-transform-input" placeholder="Enter text..." value="   Hello JavaScript!   ">
+                        <input type="text" id="content-input" value="JavaScript DOM is interactive!">
                     </div>
+
                     <div class="btn-group">
-                        <button onclick="handleStringTransform('upper')">toUpperCase()</button>
-                        <button class="btn-secondary" onclick="handleStringTransform('lower')">toLowerCase()</button>
-                        <button class="btn-warning" onclick="handleStringTransform('trim')">trim()</button>
+                        <button onclick="handleTextContentChange()">textContent (Plain)</button>
+                        <button class="btn-secondary" onclick="handleInnerHTMLChange()">innerHTML (HTML Tags)</button>
                     </div>
-                    <div class="result-box chips-wrap" id="str-transform-result">Ready...</div>
+
+                    <div class="result-box chips-wrap" id="content-result">Ready...</div>
                 </div>
 
                 <div class="code-preview">
-<pre><code>const text = "   Hello JavaScript!   ";
-text.toUpperCase(); // "   HELLO JAVASCRIPT!   "
-text.toLowerCase(); // "   hello javascript!   "
-text.trim();        // "Hello JavaScript!"</code></pre>
+<pre><code>const el = document.getElementById("content-target");
+// 1. Plain text (safe from XSS)
+el.textContent = "New text";
+
+// 2. HTML rendered markup
+el.innerHTML = "&lt;strong&gt;Bold&lt;/strong&gt; text";</code></pre>
                 </div>
             </section>
 
-            <!-- Card 2: String Search & Replace -->
-            <section class="card" id="card-string-search">
+            <!-- Card 2: Styles & ClassList -->
+            <section class="card" id="card-styles">
                 <div class="card-header">
-                    <span class="card-tag">2. String Methods</span>
-                    <h2>Search & Replace</h2>
+                    <span class="card-tag">2. Styles & Classes</span>
+                    <h2>Inline Styles & classList</h2>
                 </div>
-                <p class="card-desc">Check for substrings with <code>includes()</code>, locate positions with <code>indexOf()</code>, and swap words with <code>replace()</code>.</p>
+                <p class="card-desc">Control appearance via <code>element.style</code> properties or toggle CSS classes with <code>element.classList.toggle()</code>.</p>
                 
                 <div class="card-body">
-                    <label for="str-search-text">Sample Text:</label>
-                    <div class="input-group">
-                        <input type="text" id="str-search-text" value="JavaScript is awesome">
+                    <label>Target Box:</label>
+                    <div class="target-box" id="style-target">Dynamic Style Box</div>
+
+                    <label>Manipulate Appearance:</label>
+                    <div class="btn-group">
+                        <button onclick="handleStyleColor('#38bdf8', 'rgba(56, 189, 248, 0.12)')">Cyan Theme</button>
+                        <button class="btn-success" onclick="handleStyleColor('#10b981', 'rgba(16, 185, 129, 0.12)')">Emerald Theme</button>
+                        <button class="btn-warning" onclick="handleClassToggle()">classList.toggle()</button>
+                        <button class="btn-secondary" onclick="handleStyleReset()">Reset</button>
                     </div>
-                    
+
+                    <div class="result-box chips-wrap" id="style-result">Ready...</div>
+                </div>
+
+                <div class="code-preview">
+<pre><code>const box = document.getElementById("style-target");
+// Change style
+box.style.color = "#38bdf8";
+
+// Toggle class
+box.classList.toggle("highlight-active");</code></pre>
+                </div>
+            </section>
+
+            <!-- Card 3: Create & Remove Elements -->
+            <section class="card" id="card-elements">
+                <div class="card-header">
+                    <span class="card-tag">3. Dynamic Elements</span>
+                    <h2>createElement & appendChild</h2>
+                </div>
+                <p class="card-desc">Create elements in memory, configure attributes, append them to the DOM, or remove them on the fly.</p>
+                
+                <div class="card-body">
+                    <label>Live Element Container:</label>
+                    <div class="target-box" id="dynamic-container" style="min-height: 52px; display: flex; flex-wrap: wrap; justify-content: center; align-items: center;"></div>
+
+                    <label for="element-label-input">Element Label:</label>
+                    <div class="input-group">
+                        <input type="text" id="element-label-input" placeholder="e.g. New Task" value="DOM Task">
+                    </div>
+
+                    <div class="btn-group">
+                        <button onclick="handleAddElement()">createElement() + append</button>
+                        <button class="btn-danger" onclick="handleRemoveElement()">remove() Last</button>
+                        <button class="btn-secondary" onclick="handleClearElements()">Clear All</button>
+                    </div>
+
+                    <div class="result-box chips-wrap" id="dynamic-result">Ready...</div>
+                </div>
+
+                <div class="code-preview">
+<pre><code>// 1. Create element
+const chip = document.createElement("span");
+chip.textContent = "New Item";
+
+// 2. Append to parent
+container.appendChild(chip);
+
+// 3. Remove element
+chip.remove();</code></pre>
+                </div>
+            </section>
+
+            <!-- Card 4: Attribute Manipulation -->
+            <section class="card" id="card-attributes">
+                <div class="card-header">
+                    <span class="card-tag">4. Attributes</span>
+                    <h2>setAttribute & getAttribute</h2>
+                </div>
+                <p class="card-desc">Inspect and change HTML tag attributes dynamically, such as input <code>type</code>, <code>placeholder</code>, or <code>src</code>.</p>
+                
+                <div class="card-body">
+                    <label for="attr-input-demo">Target Input Field:</label>
+                    <div class="input-group">
+                        <input type="password" id="attr-input-demo" value="SuperSecretPassword123" placeholder="Enter password...">
+                    </div>
+
+                    <div class="btn-group">
+                        <button id="btn-toggle-type" onclick="handleToggleInputType()">Show as Text</button>
+                        <button class="btn-secondary" onclick="handlePlaceholderChange()">Change Placeholder</button>
+                    </div>
+
+                    <div class="result-box chips-wrap" id="attr-result">Ready...</div>
+                </div>
+
+                <div class="code-preview">
+<pre><code>const input = document.getElementById("attr-input-demo");
+
+// Get and Set attribute
+const current = input.getAttribute("type");
+input.setAttribute("type", "text");
+input.setAttribute("placeholder", "New text...");</code></pre>
+                </div>
+            </section>
+
+            <!-- Card 5: Event Listeners -->
+            <section class="card" id="card-events" style="grid-column: 1 / -1;">
+                <div class="card-header">
+                    <span class="card-tag">5. Event Listeners</span>
+                    <h2>addEventListener (Click & Input)</h2>
+                </div>
+                <p class="card-desc">Attach listeners to react immediately when users click buttons, type into text fields, or move the mouse.</p>
+                
+                <div class="card-body">
                     <div class="input-row">
+                        <!-- Part A: Click Event -->
                         <div class="input-col">
-                            <label for="str-search-query">Search Query</label>
-                            <input type="text" id="str-search-query" value="Script">
+                            <label>Click Event Demo:</label>
+                            <div class="btn-group">
+                                <button id="btn-click-tracker">Click Me!</button>
+                                <span class="step-chip" id="click-counter-display">0 clicks</span>
+                            </div>
+                        </div>
+
+                        <!-- Part B: Real-time Input Event -->
+                        <div class="input-col">
+                            <label for="live-mirror-input">Real-time "input" Event Demo:</label>
+                            <input type="text" id="live-mirror-input" placeholder="Type here to mirror live...">
+                            <div class="target-box" id="live-mirror-output" style="margin-top: 8px; margin-bottom: 0;">(Waiting for input...)</div>
                         </div>
                     </div>
-                    <div class="btn-group">
-                        <button onclick="handleStringSearch()">Check includes() & indexOf()</button>
-                    </div>
 
-                    <div class="input-row">
-                        <div class="input-col">
-                            <label for="str-find">Find</label>
-                            <input type="text" id="str-find" value="awesome">
-                        </div>
-                        <div class="input-col">
-                            <label for="str-replace-with">Replace With</label>
-                            <input type="text" id="str-replace-with" value="powerful">
-                        </div>
-                    </div>
-                    <div class="btn-group">
-                        <button class="btn-secondary" onclick="handleStringReplace()">replace() Text</button>
-                    </div>
-
-                    <div class="result-box chips-wrap" id="str-search-result">Ready...</div>
+                    <div class="result-box chips-wrap" id="events-result" style="margin-top: 12px;">Waiting for user interaction...</div>
                 </div>
 
                 <div class="code-preview">
-<pre><code>const str = "JavaScript is awesome";
-str.includes("Script"); // true
-str.indexOf("Script");  // 4
-str.replace("awesome", "powerful"); // "JavaScript is powerful"</code></pre>
-                </div>
-            </section>
+<pre><code>// Click Listener
+btn.addEventListener("click", () => {
+    counter++;
+    counterDisplay.textContent = `${counter} clicks`;
+});
 
-            <!-- Card 3: Array Mutating Methods -->
-            <section class="card" id="card-array-mutation">
-                <div class="card-header">
-                    <span class="card-tag">3. Array Methods</span>
-                    <h2>Add & Remove Elements</h2>
-                </div>
-                <p class="card-desc">Arrays are mutable lists. <code>push</code> & <code>pop</code> work on the end; <code>unshift</code> & <code>shift</code> work on the beginning.</p>
-                
-                <div class="card-body">
-                    <label for="array-item-input">Item to Add:</label>
-                    <div class="input-group">
-                        <input type="text" id="array-item-input" placeholder="e.g. 🍇 Grape" value="🍇 Grape">
-                    </div>
-                    <div class="btn-group">
-                        <button onclick="handleArrayPush()">push() [End]</button>
-                        <button class="btn-danger" onclick="handleArrayPop()">pop() [End]</button>
-                        <button class="btn-secondary" onclick="handleArrayUnshift()">unshift() [Start]</button>
-                        <button class="btn-warning" onclick="handleArrayShift()">shift() [Start]</button>
-                        <button class="btn-secondary" onclick="handleArrayReset()">Reset</button>
-                    </div>
-                    <div class="result-box chips-wrap" id="array-mutate-result">Ready...</div>
-                </div>
-
-                <div class="code-preview">
-<pre><code>const fruits = ["🍎 Apple", "🍌 Banana"];
-fruits.push("🍊 Orange");       // Added to end
-fruits.pop();                   // Removed from end
-fruits.unshift("🍓 Strawberry");// Added to start
-fruits.shift();                 // Removed from start</code></pre>
-                </div>
-            </section>
-
-            <!-- Card 4: Array Search & Slice -->
-            <section class="card" id="card-array-search">
-                <div class="card-header">
-                    <span class="card-tag">4. Array Methods</span>
-                    <h2>Search, Slice & Reverse</h2>
-                </div>
-                <p class="card-desc">Query items, take shallow copies using <code>slice()</code>, or flip element order with <code>reverse()</code>.</p>
-                
-                <div class="card-body">
-                    <label for="array-search-input">Search in Array:</label>
-                    <div class="input-group">
-                        <input type="text" id="array-search-input" placeholder="e.g. Apple" value="Apple">
-                        <button onclick="handleArrayCheck()">includes()</button>
-                    </div>
-                    <div class="btn-group">
-                        <button class="btn-secondary" onclick="handleArraySlice()">slice(0, 2)</button>
-                        <button class="btn-warning" onclick="handleArrayReverse()">reverse() Array</button>
-                    </div>
-                    <div class="result-box chips-wrap" id="array-util-result">Ready...</div>
-                </div>
-
-                <div class="code-preview">
-<pre><code>const list = ["🍎 Apple", "🍌 Banana", "🍊 Orange"];
-list.includes("Apple");          // true
-const copy = list.slice(0, 2);   // ["🍎 Apple", "🍌 Banana"]
-list.reverse();                  // Reverses original list</code></pre>
-                </div>
-            </section>
-
-            <!-- Card 5: The Bridge: split() and join() -->
-            <section class="card" id="card-bridge" style="grid-column: 1 / -1;">
-                <div class="card-header">
-                    <span class="card-tag">5. The Bridge</span>
-                    <h2>Converting Strings ⇄ Arrays (split & join)</h2>
-                </div>
-                <p class="card-desc">Use <code>split(delimiter)</code> to break a string into an array, and <code>join(delimiter)</code> to glue an array into a string.</p>
-                
-                <div class="card-body">
-                    <label for="bridge-input">Comma-Separated Text / Word:</label>
-                    <div class="input-group">
-                        <input type="text" id="bridge-input" value="HTML,CSS,JavaScript,React">
-                    </div>
-                    <div class="btn-group">
-                        <button onclick="handleBridgeSplit()">split(",") ➔ Array</button>
-                        <button class="btn-secondary" onclick="handleBridgeJoin()">join(" ➔ ") ➔ String</button>
-                        <button class="btn-warning" onclick="handleBridgeReverseWord()">Reverse Word (split + reverse + join)</button>
-                    </div>
-                    <div class="result-box chips-wrap" id="bridge-result">Click an option above...</div>
-                </div>
-
-                <div class="code-preview">
-<pre><code>// 1. String to Array:
-const skills = "HTML,CSS,JavaScript".split(","); // ["HTML", "CSS", "JavaScript"]
-
-// 2. Array to String:
-const combined = skills.join(" - "); // "HTML - CSS - JavaScript"
-
-// 3. String Reversal Pattern:
-const reversed = "hello".split("").reverse().join(""); // "olleh"</code></pre>
+// Input Listener (real-time typing)
+input.addEventListener("input", (event) => {
+    output.textContent = event.target.value;
+});</code></pre>
                 </div>
             </section>
 
@@ -204,8 +215,8 @@ const reversed = "hello".split("").reverse().join(""); // "olleh"</code></pre>
 
         <!-- Footer -->
         <footer class="footer">
-            <p>Day 24 of 100 Days Frontend • Built by <a href="https://github.com/harish-0987" target="_blank" rel="noopener">Harish</a></p>
-            <p><a href="https://github.com/harish-0987/DAY-24-OF-FRONTEND" target="_blank" rel="noopener" class="repo-link">View on GitHub ↗</a></p>
+            <p>Day 25 of 100 Days Frontend • Built by <a href="https://github.com/harish-0987" target="_blank" rel="noopener">Harish</a></p>
+            <p><a href="https://github.com/harish-0987/DAY-25-OF-FRONTEND" target="_blank" rel="noopener" class="repo-link">View on GitHub ↗</a></p>
         </footer>
     </div>
 
